@@ -12,6 +12,8 @@
             /*Get data form XMl*/
 
             // Muscate_Metadata_Document attributes
+            $o_Muscate_Metadata_Document = $xml->getName();
+     
             // xmlns:xsi
             $o_Muscate_Metadata_Document_DocNamespaces_xsi = $xml->getDocNamespaces(
                 1
@@ -158,10 +160,10 @@
             Bloc:  <Statistic_Informations>
             */
             //Global_Statistic
-            $o_KAPPA = $xml->Product_Characteristics->Global_Statistic->KAPPA->__toString();
-            $o_OA = $xml->Product_Characteristics->Global_Statistic->OA->__toString();
+            $o_KAPPA = $xml->Product_Characteristics->Global_Statistic->KAPPA;
+            $o_OA = $xml->Product_Characteristics->Global_Statistic->OA;
             //Statistic_List
-            $o_Statistic_List = $xml->Product_Characteristics->Statistic_List->__toString();
+            $o_Statistic_List = $xml->Product_Characteristics->Statistic_List;
         }
         //   /*
         //   XML String
