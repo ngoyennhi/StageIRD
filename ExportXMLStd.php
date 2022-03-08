@@ -11,11 +11,23 @@
         // if (!unlink($xml_file_name)) {
         //     echo "$file_pointer cannot be deleted due to an error";
         // } else {
-        // START Un premier élément'gmi:Muscate_Metadata_Document'
 
-        $root = $dom->createElement('gmi:' . $o_Muscate_Metadata_Document);
+        /******************************** 
+        ******************************** 
+            Bloc Metadata Identifier Content
+            ******************************** 
+            *********************************/
 
-        //set Attributs of élément 'gmi:Muscate_Metadata_Document'
+        /*********************************  
+          gmi:Muscate_Metadata_Document 
+          OSO - <Metadata_Identification>
+          ********************************/
+
+        // START Un premier élément'gmi:MI_Metadata'
+
+        $root = $dom->createElement('gmi:MI_Metadata');
+
+        //set Attributs of élément 'gmi:MI_Metadata'
 
         $attr_root_xsi = new DOMAttr(
             'xmlns:xsi',
@@ -107,22 +119,16 @@
         );
         $root->setAttributeNode($attr_root_xs);
 
-        // $attr_root_xsi = new DOMAttr(
-        //     'xmlns:xsi',
-        //     'http://www.w3.org/2001/XMLSchema-instance'
-        // );
-        // $root->setAttributeNode($attr_root_xsi);
+        /* Data - NODEs and add node into its parent by appendChild */
 
-        /*
-             Data - NODEs and add node into its parent by appendChild
-            */
+        /*********************************  
+          Bloc: gmd:fileIdentifier - 
+          OSO: Dataset_Identification
+          ********************************/
 
-        /*
-            Bloc gmd:fileIdentifier
-            */
         //gmd:fileIdentifier
         $gmdFileIdentifier_node = $dom->createElement('gmd:fileIdentifier');
-        //gco:CharacterString
+        //gmd:fileIdentifier/gco:CharacterString
         $gcoCharacterString_node = $dom->createElement(
             'gco:CharacterString',
             $o_IDENTIFIER
@@ -130,71 +136,77 @@
         $gmdFileIdentifier_node->appendChild($gcoCharacterString_node);
         $root->appendChild($gmdFileIdentifier_node);
 
-        /*
-            Bloc gmd:language
-            */
-        //gmd:language
-        $gmdLanguage_node = $dom->createElement('gmd:language');
-        //gco:CharacterString
-        $gcoCharacterString_node = $dom->createElement(
-            'gco:CharacterString',
-            'eng'
-        );
-        $gmdLanguage_node->appendChild($gcoCharacterString_node);
-        $root->appendChild($gmdLanguage_node);
+        /*********************************  
+          Bloc: gmd:language 
+          OSO :
+          ********************************/
+        // //gmd:language
+        // $gmdLanguage_node = $dom->createElement('gmd:language');
+        // // gmd:language/gco:CharacterString
+        // $gcoCharacterString_node = $dom->createElement(
+        //     'gco:CharacterString',
+        //     'eng'
+        // );
+        // $gmdLanguage_node->appendChild($gcoCharacterString_node);
+        // $root->appendChild($gmdLanguage_node);
+      
+        /*********************************  
+          Bloc: gmd:characterSet
+          OSO :
+          ********************************/
+        // //gmd:characterSet
+        // $gmdLanguage_node = $dom->createElement('gmd:characterSet');
+        // // gmd:characterSet/gmd:MD_CharacterSetCode
+        // $gmdMD_CharacterSetCode_node = $dom->createElement(
+        //     'gmd:MD_CharacterSetCode',
+        //     'utf8'
+        // );
+        // $attr_MD_codeList = new DOMAttr(
+        //     'codeList',
+        //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
+        // );
+        // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
+        // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
+        // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
+        // $gmdLanguage_node->appendChild($gmdMD_CharacterSetCode_node);
+        // $root->appendChild($gmdLanguage_node);
 
-        /*
-            Bloc gmd:characterSet
-            */
-        //gmd:characterSet
-        $gmdLanguage_node = $dom->createElement('gmd:characterSet');
-        //gmd:MD_CharacterSetCode
-        $gmdMD_CharacterSetCode_node = $dom->createElement(
-            'gmd:MD_CharacterSetCode',
-            'utf8'
-        );
-        $attr_MD_codeList = new DOMAttr(
-            'codeList',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
-        );
-        $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
-        $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
-        $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
-        $gmdLanguage_node->appendChild($gmdMD_CharacterSetCode_node);
-        $root->appendChild($gmdLanguage_node);
+        /*********************************  
+          Bloc: gmd:hierarchyLevel
+          OSO :
+          ********************************/
 
-        /*
-            Bloc gmd:hierarchyLevel
-            */
-        //gmd:hierarchyLevel
-        $gmdHierarchyLevel_node = $dom->createElement('gmd:hierarchyLevel');
-        //gmd:MD_ScopeCode
-        $gmdMD_ScopeCode_node = $dom->createElement(
-            'gmd:MD_ScopeCode',
-            'series'
-        );
-        $attr_MD_codeList = new DOMAttr(
-            'codeList',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode'
-        );
-        $attr_MD_codeListValue = new DOMAttr('codeListValue', 'series');
-        $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeList);
-        $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeListValue);
-        $gmdHierarchyLevel_node->appendChild($gmdMD_ScopeCode_node);
-        $root->appendChild($gmdHierarchyLevel_node);
+        // //gmd:hierarchyLevel
+        // $gmdHierarchyLevel_node = $dom->createElement('gmd:hierarchyLevel');
+        // //gmd:MD_ScopeCode
+        // $gmdMD_ScopeCode_node = $dom->createElement(
+        //     'gmd:MD_ScopeCode',
+        //     'series'
+        // );
+        // $attr_MD_codeList = new DOMAttr(
+        //     'codeList',
+        //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode'
+        // );
+        // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'series');
+        // $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeList);
+        // $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeListValue);
+        // $gmdHierarchyLevel_node->appendChild($gmdMD_ScopeCode_node);
+        // $root->appendChild($gmdHierarchyLevel_node);
 
-        /*
-            Bloc gmd:contact
-            */
+        /*********************************  
+          Bloc:  gmd:contact
+          OSO :  PRODUCER
+          ********************************/
         //gmd:contact
-        $gmdContact_node = $dom->createElement('gmd:contact');
-        $attr_Contact = new DOMAttr('gco:nilReason', 'missing');
-        $gmdContact_node->setAttributeNode($attr_Contact);
+        $gmdContact_node = $dom->createElement('gmd:contact',$o_PRODUCER);
         $root->appendChild($gmdContact_node);
 
-        /*
-            Bloc gmd:dateStamp
-            */
+
+        /*********************************  
+          Bloc:  gmd:dateStamp
+          OSO :  PRODUCTION_DATE
+          ********************************/
+
         //gmd:dateStamp
         $gmdDateStamp_node = $dom->createElement('gmd:dateStamp');
         //gco:DateTime
@@ -205,6 +217,11 @@
         $gmdDateStamp_node->appendChild($gcoDateTime_node);
         $root->appendChild($gmdDateStamp_node);
 
+
+        /*********************************  
+          Bloc:  gmd:dateStamp
+          OSO :  PRODUCTION_DATE
+          ********************************/
         /*
             Bloc gmd:metadataStandardName
             */
@@ -556,7 +573,8 @@ Bloc gmd:dataQualityInfo
 
         //gmd:scope -> gmd:DQ_Scope->gmd:level ->gmd:MD_ScopeCode -
         $gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_node = $dom->createElement(
-            'gmd:MD_ScopeCode','series'
+            'gmd:MD_ScopeCode',
+            'series'
         );
         $attr_gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_CodeList = new DOMAttr(
             'codeList',
@@ -594,7 +612,8 @@ Bloc gmd:dataQualityInfo
         );
         //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:measureIdentification ->gmd:MD_Identifier -> gmd:code-> gco:CharacterString
         $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_String_node = $dom->createElement(
-            'gco:CharacterString',$o_UTC_Acquisition_Range_DATE_PRECISION
+            'gco:CharacterString',
+            $o_UTC_Acquisition_Range_DATE_PRECISION
         );
         //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result
 
@@ -603,11 +622,15 @@ Bloc gmd:dataQualityInfo
         //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value
         //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value->gco:Record
         //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value->gco:Record->gco:Real
-        
+
         //----L7----
-        $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_node->appendChild($gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_String_node);
+        $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_node->appendChild(
+            $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_String_node
+        );
         //----L6----
-        $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_node->appendChild($gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_node);
+        $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_node->appendChild(
+            $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_node
+        );
         //----L5----
         $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_node->appendChild(
             $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_node
@@ -643,35 +666,291 @@ Bloc gmd:dataQualityInfo
         );
         //----L0----
         $root->appendChild($gmdDataQualityInfo_node);
-        
+
         /*
         Bloc gmi:acquisitionInformation
         */
-        $gmiAcquisitionInformation_node = $dom->createElement('gmi:acquisitionInformation');
-        $gmi_MI_AcquisitionInformation_node = $dom->createElement('gmi:MI_AcquisitionInformation');
-        //---------------------gmi:operation------------------------------------------
+        $gmiAcquisitionInformation_node = $dom->createElement(
+            'gmi:acquisitionInformation'
+        );
+        $gmi_MI_AcquisitionInformation_node = $dom->createElement(
+            'gmi:MI_AcquisitionInformation'
+        );
+        //---------------------gmi:MI_AcquisitionInformation->gmi:operation------------------------------------------
         $gmi_MI_Acquis_operation_node = $dom->createElement('gmi:operation');
-         // gmi:operation->gmi:MI_Operation
-        $gmi_MI_Acquis_operation_MI_Operation_node = $dom->createElement('gmi:MI_Operation');
-        $gmi_MI_Acquis_operation_MI_Operation_description_node = $dom->createElement('gmi:description');
-        $gmi_MI_Acquis_operation_MI_Operation_identifier_node = $dom->createElement('gmi:identifier');
-        $gmi_MI_Acquis_operation_MI_Operation_status_node = $dom->createElement('gmi:status');
-        //---------------------gmi:platform------------------------------------------
+        // gmi:operation->gmi:MI_Operation
+        $gmi_MI_Acquis_operation_MI_Operation_node = $dom->createElement(
+            'gmi:MI_Operation'
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_description_node = $dom->createElement(
+            'gmi:description'
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_node = $dom->createElement(
+            'gmi:identifier'
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_status_node = $dom->createElement(
+            'gmi:status'
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_parentOperation_node = $dom->createElement(
+            'gmi:parentOperation'
+        );
+        $attr_gmi_MI_Acquis_operation_MI_Operation_parentOperation_Value = new DOMAttr(
+            'gco:nilReason',
+            'inapplicable'
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_parentOperation_node->setAttributeNode(
+            $attr_gmi_MI_Acquis_operation_MI_Operation_parentOperation_Value
+        );
+
+        // gmi:description -> gco:CharacterString
+        $gmi_MI_Acquis_operation_MI_Operation_description_String_node = $dom->createElement(
+            'gco:CharacterString'
+        );
+        // gmi:identifier -> gmd:MD_Identifier
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_node = $dom->createElement(
+            'gmd:MD_Identifier'
+        );
+        // gmi:identifier -> gmd:MD_Identifier -> gmd:code
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_code_node = $dom->createElement(
+            'gmd:code'
+        );
+        // gmi:identifier -> gmd:MD_Identifier -> gmd:code -> gco:CharacterString
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_code_String_node = $dom->createElement(
+            'gco:CharacterString',
+            $o_PROJECT
+        );
+
+        //---------------------gmi:MI_AcquisitionInformation->gmi:platform------------------------------------------
         $gmi_MI_Acquis_platform_node = $dom->createElement('gmi:platform');
+        $gmi_MI_Acquis_platform_EOS_Platform_node = $dom->createElement(
+            'eos:EOS_Platform'
+        );
+        //------******5******------//
+        //gmi:platform->eos:EOS_Platform->gmi:identifier
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_node = $dom->createElement(
+            'gmi:identifier'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:description
+        $gmi_MI_Acquis_platform_EOS_Platform_description_node = $dom->createElement(
+            'gmi:description'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_node = $dom->createElement(
+            'gmi:instrument'
+        );
+        //gmi:platform->eos:EOS_Platform->eos:otherProperty
+        $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_node = $dom->createElement(
+            'eos:otherProperty'
+        );
+
+        //------******6******------//
+        //gmi:platform->eos:EOS_Platform->gmi:identifier->gmd:MD_Identifier
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_node = $dom->createElement(
+            'gmd:MD_Identifier'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:description->gco:CharacterString
+        $gmi_MI_Acquis_platform_EOS_Platform_description_String_node = $dom->createElement(
+            'gco:CharacterString'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node = $dom->createElement(
+            'eos:EOS_Instrument'
+        );
+        //gmi:platform->eos:EOS_Platform->eos:otherProperty->gco:Record
+        $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_Record_node = $dom->createElement(
+            'gco:Record'
+        );
+
+        //------******7******------//
+        //gmi:platform->eos:EOS_Platform->gmi:identifier->gmd:MD_Identifier->gmd:code
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_code_node = $dom->createElement(
+            'gmd:code'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:identifier->gmd:MD_Identifier->gmd:description
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_description_node = $dom->createElement(
+            'gmd:description'
+        );
+
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->gmi:citation
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_citation_node = $dom->createElement(
+            'gmi:citation'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->gmi:identifier
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_identifier_node = $dom->createElement(
+            'gmi:identifier'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->gmi:type
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_type_node = $dom->createElement(
+            'gmi:type'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->gmi:description
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_description_node = $dom->createElement(
+            'gmi:description'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->eos:otherPropertyType
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherPropertyType_node = $dom->createElement(
+            'eos:otherPropertyType'
+        );
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->eos:otherProperty
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node = $dom->createElement(
+            'eos:otherProperty'
+        );
+
+        //gmi:platform->eos:EOS_Platform->gmi:instrument->eos:EOS_Instrument->eos:sensor
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node = $dom->createElement(
+            'eos:sensor'
+        );
+
+        //gmi:platform->eos:EOS_Platform->eos:otherProperty->gco:Record->eos:AdditionalAttributes
+        $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_Record_AdditionalAttributes_node = $dom->createElement(
+            'eos:AdditionalAttributes'
+        );
+
+        //------******8******------//
+        //gmi:platform->eos:EOS_Platform->gmi:identifier->gmd:MD_Identifier->gmd:code->gco:CharacterString
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_code_String_node = $dom->createElement(
+            'gco:CharacterString',
+            $o_PLATFORM
+        );
+
+        //gmi:platform->eos:EOS_Platform->gmi:identifier->gmd:MD_Identifier->gmd:description->gco:CharacterString
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_description_String_node = $dom->createElement(
+            'gco:CharacterString'
+        );
+
+        /* 
+        $_node = $dom->createElement(');
+        $_node ->appendChild();
+        $_CodeList = new DOMAttr();
+        $_Value = new DOMAttr();
+        $_node ->setAttributeNode();
+       */
+
+        //----L7----
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_code_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_code_String_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_code_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_code_String_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_description_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_description_String_node
+        );
+
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_citation_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_identifier_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_type_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_description_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherPropertyType_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node->appendChild();
+        // $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node->appendChild();
+
+        //----L6----
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_code_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_code_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_description_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_citation_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_identifier_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_type_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_description_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherPropertyType_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_otherProperty_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_Record_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_Record_AdditionalAttributes_node
+        );
         //----L5----
+        $gmi_MI_Acquis_operation_MI_Operation_description_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_description_String_node
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_identifier_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_identifier_MD_Identifier_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_identifier_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_MD_Identifier_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_description_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_description_String_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_instrument_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_EOS_Instrument_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_Record_node
+        );
+
         //----L4----
-        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild($gmi_MI_Acquis_operation_MI_Operation_description_node);
-        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild($gmi_MI_Acquis_operation_MI_Operation_identifier_node);
-        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild($gmi_MI_Acquis_operation_MI_Operation_status_node);
+        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_description_node
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_identifier_node
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_status_node
+        );
+        $gmi_MI_Acquis_operation_MI_Operation_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_parentOperation_node
+        );
+
+        $gmi_MI_Acquis_platform_EOS_Platform_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_identifier_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_description_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_instrument_node
+        );
+        $gmi_MI_Acquis_platform_EOS_Platform_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_otherProperty_node
+        );
         //----L3----
-        $gmi_MI_Acquis_operation_node->appendChild($gmi_MI_Acquis_operation_MI_Operation_node); 
+        $gmi_MI_Acquis_operation_node->appendChild(
+            $gmi_MI_Acquis_operation_MI_Operation_node
+        );
+        $gmi_MI_Acquis_platform_node->appendChild(
+            $gmi_MI_Acquis_platform_EOS_Platform_node
+        );
         //----L2----
-        $gmi_MI_AcquisitionInformation_node->appendChild($gmi_MI_Acquis_operation_node);
-        $gmi_MI_AcquisitionInformation_node->appendChild($gmi_MI_Acquis_platform_node);
+        $gmi_MI_AcquisitionInformation_node->appendChild(
+            $gmi_MI_Acquis_operation_node
+        );
+        $gmi_MI_AcquisitionInformation_node->appendChild(
+            $gmi_MI_Acquis_platform_node
+        );
         //----L1----
-        $gmiAcquisitionInformation_node->appendChild($gmi_MI_AcquisitionInformation_node);
+        $gmiAcquisitionInformation_node->appendChild(
+            $gmi_MI_AcquisitionInformation_node
+        );
         //----L0----
-       $root->appendChild($gmiAcquisitionInformation_node);
+        $root->appendChild($gmiAcquisitionInformation_node);
+
         //----ROOT--------ROOT--------ROOT--------ROOT----
         //appendChild $root
         $dom->appendChild($root);
