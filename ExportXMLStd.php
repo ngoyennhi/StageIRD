@@ -12,16 +12,10 @@
         //     echo "$file_pointer cannot be deleted due to an error";
         // } else {
 
-        /******************************** 
-        ******************************** 
-            Bloc Metadata Identifier Content
-            ******************************** 
-            *********************************/
-
-        /*********************************  
-          gmi:Muscate_Metadata_Document 
+    /*********************************  
+          gmi:MI_Metadata
           OSO - <Metadata_Identification>
-          ********************************/
+     ********************************/
 
         // START Un premier élément'gmi:MI_Metadata'
 
@@ -121,10 +115,10 @@
 
         /* Data - NODEs and add node into its parent by appendChild */
 
-        /*********************************  
+    /*********************************  
           Bloc: gmd:fileIdentifier - 
           OSO: Dataset_Identification
-          ********************************/
+    ********************************/
 
         //gmd:fileIdentifier
         $gmdFileIdentifier_node = $dom->createElement('gmd:fileIdentifier');
@@ -136,77 +130,72 @@
         $gmdFileIdentifier_node->appendChild($gcoCharacterString_node);
         $root->appendChild($gmdFileIdentifier_node);
 
-        /*********************************  
+    /*********************************  
           Bloc: gmd:language 
           OSO :
-          ********************************/
-        // //gmd:language
-        // $gmdLanguage_node = $dom->createElement('gmd:language');
-        // // gmd:language/gco:CharacterString
-        // $gcoCharacterString_node = $dom->createElement(
-        //     'gco:CharacterString',
-        //     'eng'
-        // );
-        // $gmdLanguage_node->appendChild($gcoCharacterString_node);
-        // $root->appendChild($gmdLanguage_node);
+    ********************************/
+        //gmd:language
+        $gmdLanguage_node = $dom->createElement('gmd:language');
+        // gmd:language/gco:CharacterString
+        $gcoCharacterString_node = $dom->createElement(
+            'gco:CharacterString',
+            'eng'
+        );
+        $gmdLanguage_node->appendChild($gcoCharacterString_node);
+        $root->appendChild($gmdLanguage_node);
       
-        /*********************************  
+    /*********************************  
           Bloc: gmd:characterSet
           OSO :
-          ********************************/
-        // //gmd:characterSet
-        // $gmdLanguage_node = $dom->createElement('gmd:characterSet');
-        // // gmd:characterSet/gmd:MD_CharacterSetCode
-        // $gmdMD_CharacterSetCode_node = $dom->createElement(
-        //     'gmd:MD_CharacterSetCode',
-        //     'utf8'
-        // );
-        // $attr_MD_codeList = new DOMAttr(
-        //     'codeList',
-        //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
-        // );
-        // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
-        // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
-        // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
-        // $gmdLanguage_node->appendChild($gmdMD_CharacterSetCode_node);
-        // $root->appendChild($gmdLanguage_node);
+    ********************************/
+        //gmd:characterSet
+        $gmdLanguage_node = $dom->createElement('gmd:characterSet');
+        // gmd:characterSet/gmd:MD_CharacterSetCode
+        $gmdMD_CharacterSetCode_node = $dom->createElement(
+            'gmd:MD_CharacterSetCode',
+            'utf8'
+        );
+            // $attr_MD_codeList = new DOMAttr(
+            //     'codeList',
+            //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
+            // );
+            // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
+            // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
+            // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
+        $gmdLanguage_node->appendChild($gmdMD_CharacterSetCode_node);
+        $root->appendChild($gmdLanguage_node);
 
-        /*********************************  
-          Bloc: gmd:hierarchyLevel
-          OSO :
-          ********************************/
-
-        // //gmd:hierarchyLevel
-        // $gmdHierarchyLevel_node = $dom->createElement('gmd:hierarchyLevel');
-        // //gmd:MD_ScopeCode
-        // $gmdMD_ScopeCode_node = $dom->createElement(
-        //     'gmd:MD_ScopeCode',
-        //     'series'
-        // );
-        // $attr_MD_codeList = new DOMAttr(
-        //     'codeList',
-        //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode'
-        // );
-        // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'series');
-        // $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeList);
-        // $gmdMD_ScopeCode_node->setAttributeNode($attr_MD_codeListValue);
-        // $gmdHierarchyLevel_node->appendChild($gmdMD_ScopeCode_node);
-        // $root->appendChild($gmdHierarchyLevel_node);
-
-        /*********************************  
+    /*********************************  
           Bloc:  gmd:contact
           OSO :  PRODUCER
-          ********************************/
-        //gmd:contact
-        $gmdContact_node = $dom->createElement('gmd:contact',$o_PRODUCER);
+    ********************************/
+        $gmdContact_node = $dom->createElement('gmd:contact');
+        $gcoCharacterString_node = $dom->createElement(
+            'gco:CharacterString',
+            $o_PRODUCER
+        );
+        $gmdContact_node->appendChild($gcoCharacterString_node);
         $root->appendChild($gmdContact_node);
 
+    /*********************************  
+          Bloc:  gmd:locale
+          OSO :  GEOGRAPHICAL_ZONE
+    ********************************/
+        $gmdLocale_node = $dom->createElement('gmd:locale');
+        $gmdPT_Locale_node = $dom->createElement('gmd:PT_Locale');
+        $gmdPT_Locale_Country_node = $dom->createElement('gmd:country',$o_GEOGRAPHICAL_ZONE);
+        $attrPT_Locale_Country_node = new DOMAttr(
+            'type', $o_GEOGRAPHICAL_ZONE_att_type
+        );
+        $gmdPT_Locale_Country_node->setAttributeNode($attrPT_Locale_Country_node);
+        $gmdPT_Locale_node->appendChild($gmdPT_Locale_Country_node);
+        $gmdLocale_node->appendChild($gmdPT_Locale_node);
+        $root->appendChild($gmdLocale_node);
 
-        /*********************************  
+    /*********************************  
           Bloc:  gmd:dateStamp
           OSO :  PRODUCTION_DATE
-          ********************************/
-
+    ********************************/
         //gmd:dateStamp
         $gmdDateStamp_node = $dom->createElement('gmd:dateStamp');
         //gco:DateTime
@@ -218,32 +207,29 @@
         $root->appendChild($gmdDateStamp_node);
 
 
-        /*********************************  
-          Bloc:  gmd:dateStamp
-          OSO :  PRODUCTION_DATE
-          ********************************/
-        /*
-            Bloc gmd:metadataStandardName
-            */
+    /*********************************  
+          Bloc:  gmd:metadataStandardName
+          OSO :  TITLE
+    ********************************/
         //gmd:metadataStandardName
         $gmdMetadataStandardName_node = $dom->createElement(
-            'gmd:metadataStandardName'
+            'gmd:metadataStandardName',
         );
         //gco:CharacterString
         $gcoCharacterString = $dom->createElement(
             'gco:CharacterString',
-            $o_TITLE
+            'ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data'
         );
         $gmdMetadataStandardName_node->appendChild($gcoCharacterString);
         $root->appendChild($gmdMetadataStandardName_node);
 
-        /*
-            Bloc gmd:metadataStandardVersion
-            */
+    /*********************************  
+          Bloc:  gmd:metadataStandardVersion
+          OSO :  
+    ********************************/
         //gmd:metadataStandardVersion
         $gmdMetadataStandardVersion_node = $dom->createElement(
             'gmd:metadataStandardVersion',
-            'ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data'
         );
         //gco:CharacterString
         $gcoCharacterString = $dom->createElement(
@@ -252,197 +238,196 @@
         );
         $gmdMetadataStandardVersion_node->appendChild($gcoCharacterString);
         $root->appendChild($gmdMetadataStandardVersion_node);
+       
+    /*********************************  
+          Bloc: gmd:MD_DataIdentification
+          OSO :  
+    ********************************/
 
-        /*
-            Bloc gmd:identificationInfo
-            */
-        //gmd:identificationInfo
-        $gmdIdentificationInfo_node = $dom->createElement(
-            'gmd:identificationInfo'
-        );
-        //gmd:identificationInfo -> gmd:MD_DataIdentification
+        //gmd:MD_DataIdentification
         $gmdMD_DataIdentification_node = $dom->createElement(
             'gmd:MD_DataIdentification'
         );
         //-------------------gmd:citation----------------------------------------
-        //gmd:identificationInfo -> gmd:MD_DataIdentification -> gmd:citation
-        $gmdCitation_node = $dom->createElement('gmd:citation');
+            //gmd:MD_DataIdentification -> gmd:citation
+            $gmdCitation_node = $dom->createElement('gmd:citation');
 
-        //gmd:citation -> gmd:CI_Citation
-        $gmdCI_Citation_node = $dom->createElement('gmd:CI_Citation');
+                //gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation
+                $gmdCI_Citation_node = $dom->createElement('gmd:CI_Citation');
 
-        // gmd:citation -> gmd:CI_Citation -> gmd:title
-        $gmdCI_Citation_gmdTitle_node = $dom->createElement('gmd:title');
+                    // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:title
+                    $gmdCI_Citation_gmdTitle_node = $dom->createElement('gmd:title');
 
-        // gmd:citation -> gmd:CI_Citation -> gmd:title -> gco:CharacterString
-        $gmdCI_Citation_gmdTitle_gcoCharacterString_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_TITLE
-        );
+                        // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:title -> gco:CharacterString
+                        $gmdCI_Citation_gmdTitle_gcoCharacterString_node = $dom->createElement(
+                            'gco:CharacterString',
+                            $o_TITLE
+                        );
 
-        // gmd:citation -> gmd:CI_Citation -> gmd:date (revision)
-        $gmdCI_Citation_gmdDate_revision_node = $dom->createElement('gmd:date');
-        $gmdCI_Citation_gmdDate_revision_gmdCI_Date_node = $dom->createElement(
-            'gmd:CI_Date'
-        );
+                    // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:date (revision)
+                    $gmdCI_Citation_gmdDate_revision_node = $dom->createElement('gmd:date');
+            
+                        $gmdCI_Citation_gmdDate_revision_gmdCI_Date_node = $dom->createElement(
+                            'gmd:CI_Date'
+                        );
 
-        $gmdCI_Citation_gmdDate_revision_gmdCI_Date_Date_node = $dom->createElement(
-            'gmd:date'
-        );
-        $gmdCI_Citation_gmdDate_revision_gmdCI_Date_DateTime_node = $dom->createElement(
-            'gco:DateTime',
-            $o_PRODUCTION_DATE
-        );
+                            $gmdCI_Citation_gmdDate_revision_gmdCI_Date_Date_node = $dom->createElement(
+                                'gmd:date'
+                            );
+                                $gmdCI_Citation_gmdDate_revision_gmdCI_Date_DateTime_node = $dom->createElement(
+                                    'gco:DateTime',
+                                    $o_PRODUCTION_DATE
+                                );
 
-        $gmdCI_Citation_gmdDate_revision_gmdCI_Date_DateType_node = $dom->createElement(
-            'gmd:dateType'
-        );
-        $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node = $dom->createElement(
-            'gmd:CI_DateTypeCode',
-            'revision'
-        );
-        $attr_revision_gmdCI_DateTypeCode = new DOMAttr(
-            'codeList',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode'
-        );
-        $attr_revision_gmdCI_DateTypeCodeValue = new DOMAttr(
-            'codeListValue',
-            'revision'
-        );
-        $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
-            $attr_revision_gmdCI_DateTypeCode
-        );
-        $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
-            $attr_revision_gmdCI_DateTypeCodeValue
-        );
+                            $gmdCI_Citation_gmdDate_revision_gmdCI_Date_DateType_node = $dom->createElement(
+                                'gmd:dateType'
+                            );
+                                $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node = $dom->createElement(
+                                    'gmd:CI_DateTypeCode',
+                                    'revision'
+                                );
+                                $attr_revision_gmdCI_DateTypeCode = new DOMAttr(
+                                    'codeList',
+                                    'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode'
+                                );
+                                $attr_revision_gmdCI_DateTypeCodeValue = new DOMAttr(
+                                    'codeListValue',
+                                    'revision'
+                                );
+                                $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
+                                    $attr_revision_gmdCI_DateTypeCode
+                                );
+                                $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
+                                    $attr_revision_gmdCI_DateTypeCodeValue
+                                );
 
-        // gmd:citation -> gmd:CI_Citation -> gmd:date (creation)
-        $gmdCI_Citation_gmdDate_creation_node = $dom->createElement('gmd:date');
-        $gmdCI_Citation_gmdDate_creation_gmdCI_Date_node = $dom->createElement(
-            'gmd:CI_Date'
-        );
+                    // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:date (creation)
+                    $gmdCI_Citation_gmdDate_creation_node = $dom->createElement('gmd:date');
+                
+                        $gmdCI_Citation_gmdDate_creation_gmdCI_Date_node = $dom->createElement(
+                            'gmd:CI_Date'
+                        );
 
-        $gmdCI_Citation_gmdDate_creation_gmdCI_Date_Date_node = $dom->createElement(
-            'gmd:date'
-        );
-        $gmdCI_Citation_gmdDate_creation_gmdCI_Date_DateTime_node = $dom->createElement(
-            'gco:DateTime',
-            $o_ACQUISITION_DATE
-        );
+                            $gmdCI_Citation_gmdDate_creation_gmdCI_Date_Date_node = $dom->createElement(
+                                'gmd:date'
+                            );
+                                $gmdCI_Citation_gmdDate_creation_gmdCI_Date_DateTime_node = $dom->createElement(
+                                    'gco:DateTime',
+                                    $o_PRODUCTION_DATE
+                                );
 
-        $gmdCI_Citation_gmdDate_creation_gmdCI_Date_DateType_node = $dom->createElement(
-            'gmd:dateType'
-        );
-        $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node = $dom->createElement(
-            'gmd:CI_DateTypeCode',
-            'creation'
-        );
-        $attr_creation_gmdCI_DateTypeCode = new DOMAttr(
-            'codeList',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode'
-        );
-        $attr_creation_gmdCI_DateTypeCodeValue = new DOMAttr(
-            'codeListValue',
-            'creation'
-        );
-        $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
-            $attr_creation_gmdCI_DateTypeCode
-        );
-        $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
-            $attr_creation_gmdCI_DateTypeCodeValue
-        );
+                            $gmdCI_Citation_gmdDate_creation_gmdCI_Date_DateType_node = $dom->createElement(
+                                'gmd:dateType'
+                            );
+                                $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node = $dom->createElement(
+                                    'gmd:CI_DateTypeCode',
+                                    'creation'
+                                );
+                                $attr_creation_gmdCI_DateTypeCode = new DOMAttr(
+                                    'codeList',
+                                    'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#CI_DateTypeCode'
+                                );
+                                $attr_creation_gmdCI_DateTypeCodeValue = new DOMAttr(
+                                    'codeListValue',
+                                    'creation'
+                                );
+                                $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
+                                    $attr_creation_gmdCI_DateTypeCode
+                                );
+                                $gmdCI_Citation_gmdDate_creation_gmdCI_dateType_DateTimeCode_node->setAttributeNode(
+                                    $attr_creation_gmdCI_DateTypeCodeValue
+                                );
 
-        // gmd:citation -> gmd:CI_Citation -> gmd:identifier
-        $gmdCI_Citation_gmdIdentifier_node = $dom->createElement(
-            'gmd:identifier'
-        );
-        $gmdCI_Citation_gmdIdentifier_MD_Identifier_node = $dom->createElement(
-            'gmd:MD_Identifier'
-        );
-        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Code_node = $dom->createElement(
-            'gmd:code'
-        );
-        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Code_String_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_PRODUCT_ID
-        );
-        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_node = $dom->createElement(
-            'gmd:version'
-        );
-        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_String_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_PRODUCT_VERSION
-        );
+            
+            
+            
+                        // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:identifier
+                    
+                        $gmdCI_Citation_gmdIdentifier_node = $dom->createElement(
+                            'gmd:identifier'
+                        );
+                        $gmdCI_Citation_gmdIdentifier_MD_Identifier_node = $dom->createElement(
+                            'gmd:MD_Identifier'
+                        );
+                        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Code_node = $dom->createElement(
+                            'gmd:code'
+                        );
+                        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Code_String_node = $dom->createElement(
+                            'gco:CharacterString',
+                            $o_PRODUCT_ID
+                        );
+                        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_node = $dom->createElement(
+                            'gmd:version'
+                        );
+                        $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_String_node = $dom->createElement(
+                            'gco:CharacterString',
+                            $o_PRODUCT_VERSION
+                        );
 
-        //---------------------gmd:abstract------------------------------------------
-        //gmd:identificationInfo -> gmd:MD_DataIdentification -> gmd:abstract
-        $gmdAbstract_node = $dom->createElement('gmd:abstract');
-        $gmdAbstract_String_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_DESCRIPTION
-        );
-        //---------------------gmd:purpose------------------------------------------
-        $gmdPurpose_node = $dom->createElement('gmd:purpose');
-        $attr_gmdPurpose_Value = new DOMAttr('gco:nilReason', 'missing');
-        $gmdPurpose_node->setAttributeNode($attr_gmdPurpose_Value);
+                //---------------------gmd:abstract------------------------------------------
+                //gmd:identificationInfo -> gmd:MD_DataIdentification -> gmd:abstract
+                $gmdAbstract_node = $dom->createElement('gmd:abstract');
+                $gmdAbstract_String_node = $dom->createElement(
+                    'gco:CharacterString',
+                    $o_DESCRIPTION );
+        
         //---------------------gmd:descriptiveKeywords (projet)------------------------------------------
-        $gmdDescriptiveKeywords_node = $dom->createElement(
-            'gmd:descriptiveKeywords'
-        );
-        //gmd:descriptiveKeywords -> gmd:MD_Keywords
-        $gmdDescriptiveKeywords_MD_node = $dom->createElement(
-            'gmd:MD_Keywords'
-        );
-        //gmd:descriptiveKeywords -> gmd:MD_Keywords ->gmd:keyword
-        $gmdDescriptiveKeywords_MD_keyword_projet_node = $dom->createElement(
-            'gmd:keyword'
-        );
-        $gmdDescriptiveKeywords_MD_type_projet_node = $dom->createElement(
-            'gmd:type'
-        );
-        //gmd:descriptiveKeywords -> gmd:MD_Keywords ->gmd:keyword -> gco:CharacterString
-        $gmdDescriptiveKeywords_MD_keyword_projet_String_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_PROJECT
-        );
-        $gmdDescriptiveKeywords_MD_type_projet_String_node = $dom->createElement(
-            'codeList',
-            'projet'
-        );
-        $gmdDescriptiveKeywords_thesaurusName_projet_node = $dom->createElement(
-            'gmd:thesaurusName'
-        );
+            $gmdDescriptiveKeywords_node = $dom->createElement(
+                'gmd:descriptiveKeywords'
+            );
+            //gmd:descriptiveKeywords -> gmd:MD_Keywords
+            $gmdDescriptiveKeywords_MD_node = $dom->createElement(
+                'gmd:MD_Keywords'
+            );
+            //gmd:descriptiveKeywords -> gmd:MD_Keywords ->gmd:keyword
+            $gmdDescriptiveKeywords_MD_keyword_projet_node = $dom->createElement(
+                'gmd:keyword'
+            );
+            $gmdDescriptiveKeywords_MD_type_projet_node = $dom->createElement(
+                'gmd:type'
+            );
+            //gmd:descriptiveKeywords -> gmd:MD_Keywords ->gmd:keyword -> gco:CharacterString
+            $gmdDescriptiveKeywords_MD_keyword_projet_String_node = $dom->createElement(
+                'gco:CharacterString',
+                $o_PROJECT
+            );
+            $gmdDescriptiveKeywords_MD_type_projet_String_node = $dom->createElement(
+                'codeList',
+                'projet'
+            );
+            $gmdDescriptiveKeywords_thesaurusName_projet_node = $dom->createElement(
+                'gmd:thesaurusName'
+            );
 
-        $attr_gmdDescriptiveKeywords_MD_type_projet_CodeList = new DOMAttr(
-            'gco:nilReason',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode'
-        );
-        $attr_gmdDescriptiveKeywords_MD_type_projet_Value = new DOMAttr(
-            'codeListValue',
-            'projet'
-        );
-        $attr_gmdDescriptiveKeywords_thesaurusName_projet_CodeList = new DOMAttr(
-            'gco:nilReason',
-            'unknown'
-        );
+            $attr_gmdDescriptiveKeywords_MD_type_projet_CodeList = new DOMAttr(
+                'gco:nilReason',
+                'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_KeywordTypeCode'
+            );
+            $attr_gmdDescriptiveKeywords_MD_type_projet_Value = new DOMAttr(
+                'codeListValue',
+                'projet'
+            );
+            $attr_gmdDescriptiveKeywords_thesaurusName_projet_CodeList = new DOMAttr(
+                'gco:nilReason',
+                'unknown'
+            );
 
-        $gmdDescriptiveKeywords_MD_type_projet_String_node->setAttributeNode(
-            $attr_gmdDescriptiveKeywords_MD_type_projet_CodeList
-        );
-        $gmdDescriptiveKeywords_MD_type_projet_String_node->setAttributeNode(
-            $attr_gmdDescriptiveKeywords_MD_type_projet_Value
-        );
-        $gmdDescriptiveKeywords_thesaurusName_projet_node->setAttributeNode(
-            $attr_gmdDescriptiveKeywords_thesaurusName_projet_CodeList
-        );
+            $gmdDescriptiveKeywords_MD_type_projet_String_node->setAttributeNode(
+                $attr_gmdDescriptiveKeywords_MD_type_projet_CodeList
+            );
+            $gmdDescriptiveKeywords_MD_type_projet_String_node->setAttributeNode(
+                $attr_gmdDescriptiveKeywords_MD_type_projet_Value
+            );
+            $gmdDescriptiveKeywords_thesaurusName_projet_node->setAttributeNode(
+                $attr_gmdDescriptiveKeywords_thesaurusName_projet_CodeList
+            );
 
-        //---------------------gmd:aggregationInfo------------------------------------------
-        //---------------------gmd:language------------------------------------------
         //---------------------gmd:extent------------------------------------------
+        
         //---------------------gmd:processingLevel------------------------------------------
 
         //appendChild Nodes
-        //----L7----
+        //----L6----
         $gmdCI_Citation_gmdDate_revision_gmdCI_Date_DateType_node->appendChild(
             $gmdCI_Citation_gmdDate_revision_gmdCI_dateType_DateTimeCode_node
         );
@@ -461,7 +446,7 @@
         $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_node->appendChild(
             $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_String_node
         );
-        //----L6----
+        //----L5----
         $gmdCI_Citation_gmdDate_revision_gmdCI_Date_node->appendChild(
             $gmdCI_Citation_gmdDate_revision_gmdCI_Date_Date_node
         );
@@ -482,7 +467,7 @@
             $gmdCI_Citation_gmdIdentifier_MD_Identifier_Version_node
         );
 
-        //----L5----
+        //----L4----
         $gmdCI_Citation_gmdTitle_node->appendChild(
             $gmdCI_Citation_gmdTitle_gcoCharacterString_node
         );
@@ -501,7 +486,7 @@
         $gmdDescriptiveKeywords_MD_type_projet_node->appendChild(
             $gmdDescriptiveKeywords_MD_type_projet_String_node
         );
-        //----L4----
+        //----L3----
         $gmdCI_Citation_node->appendChild($gmdCI_Citation_gmdTitle_node);
         $gmdCI_Citation_node->appendChild(
             $gmdCI_Citation_gmdDate_revision_node
@@ -520,30 +505,24 @@
             $gmdDescriptiveKeywords_thesaurusName_projet_node
         );
 
-        //----L3----
+        //----L2----
         $gmdCitation_node->appendChild($gmdCI_Citation_node);
         $gmdAbstract_node->appendChild($gmdAbstract_String_node);
         $gmdDescriptiveKeywords_node->appendChild(
             $gmdDescriptiveKeywords_MD_node
         );
-        //----L2----
+        
+        //----L1----
         $gmdMD_DataIdentification_node->appendChild($gmdCitation_node);
         $gmdMD_DataIdentification_node->appendChild($gmdAbstract_node);
-        $gmdMD_DataIdentification_node->appendChild($gmdPurpose_node);
-        $gmdMD_DataIdentification_node->appendChild(
-            $gmdDescriptiveKeywords_node
-        );
+        $gmdMD_DataIdentification_node->appendChild($gmdDescriptiveKeywords_node);
 
-        //----L1----
-        $gmdIdentificationInfo_node->appendChild(
-            $gmdMD_DataIdentification_node
-        );
         //----L0----
-        $root->appendChild($gmdIdentificationInfo_node);
+        $root->appendChild($gmdMD_DataIdentification_node);
 
         /*
-Bloc gmd:contentInfo   
-*/
+        Bloc gmd:contentInfo   
+        */
 
         //---------------------gmd:purpose------------------------------------------
         //----L5----
@@ -553,9 +532,10 @@ Bloc gmd:contentInfo
         //----L1----
         //----L0----
         // $root->appendChild($gmdContentInfo_node);
+        
         /*
-Bloc gmd:dataQualityInfo
-*/
+            Bloc gmd:dataQualityInfo
+        */
         $gmdDataQualityInfo_node = $dom->createElement('gmd:dataQualityInfo');
         $gmdDataQualityInfo_DQ_DataQuality_node = $dom->createElement(
             'gmd:DQ_DataQuality'
@@ -571,25 +551,7 @@ Bloc gmd:dataQualityInfo
             'gmd:level'
         );
 
-        //gmd:scope -> gmd:DQ_Scope->gmd:level ->gmd:MD_ScopeCode -
-        $gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_node = $dom->createElement(
-            'gmd:MD_ScopeCode',
-            'series'
-        );
-        $attr_gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_CodeList = new DOMAttr(
-            'codeList',
-            'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_ScopeCode'
-        );
-        $attr_gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_Value = new DOMAttr(
-            'codeListValue',
-            'series'
-        );
-        $gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_node->setAttributeNode(
-            $attr_gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_CodeList
-        );
-        $gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_node->setAttributeNode(
-            $attr_gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_Value
-        );
+        
         //gmd:report
         $gmdDataQualityInfo_DQ_DataQuality_report_node = $dom->createElement(
             'gmd:report'
@@ -615,13 +577,6 @@ Bloc gmd:dataQualityInfo
             'gco:CharacterString',
             $o_UTC_Acquisition_Range_DATE_PRECISION
         );
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result
-
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:valueUnit
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value->gco:Record
-        //gmd:report ->gmd:DQ_AccuracyOfATimeMeasurement->gmd:result->gmd:DQ_QuantitativeResult->gmd:value->gco:Record->gco:Real
 
         //----L7----
         $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_code_node->appendChild(
@@ -635,9 +590,7 @@ Bloc gmd:dataQualityInfo
         $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_node->appendChild(
             $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_Id_node
         );
-        $gmdDataQualityInfo_DQ_Scope_level_node->appendChild(
-            $gmdDataQualityInfo_DQ_Scope_level_MD_ScopeCode_node
-        );
+        
         //----L4----
         $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_node->appendChild(
             $gmdDataQualityInfo_DQ_AccuracyOfATimeMeasurement_measureId_node
