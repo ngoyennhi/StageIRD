@@ -1,7 +1,8 @@
 <?php ini_set('display_errors', 'on'); ?>
         <?php
         $xml = simplexml_load_file(
-            'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL.xml'
+            //'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL.xml'
+            'OSO_20200101_RASTER_V1-0_MTD_ALL.xml'
         );
         if ($xml === false) {
             echo 'Failed loading XML: ';
@@ -49,6 +50,7 @@
             $o_GEOGRAPHICAL_ZONE_att_type = $xml->Dataset_Identification->GEOGRAPHICAL_ZONE
                 ->attributes()
                 ->type->__toString();
+            
             $o_TITLE = $xml->Dataset_Identification->TITLE->__toString();
             $o_DESCRIPTION =
                 '<![CDATA[' .
@@ -160,9 +162,33 @@
             Bloc:  <Statistic_Informations>
             */
             //Global_Statistic
-            $o_KAPPA = $xml->Product_Characteristics->Global_Statistic->KAPPA;
-            $o_OA = $xml->Product_Characteristics->Global_Statistic->OA;
+            $o_KAPPA = $xml->Statistic_Informations->Global_Statistic->KAPPA;
+  
+            $o_OA = $xml->Statistic_Informations->Global_Statistic->OA;
+   
             //Statistic_List
-            $o_Statistic_List = $xml->Product_Characteristics->Statistic_List;
+            //$o_Statistic_List = $xml->Statistic_Informations->Statistic_List;
+            $tagClasseLists = array();
+            $attStatisticClasses = array();
+            $tagClasseListsDetail = array();
+            $contentClasseListsDetail = array();
+            foreach ($xml->xpath('//Statistic_List') as $statisticClasses) {
+                $statisticClasses->getName();
+                echo " Block : ", $statisticClasses->getName();
+                // count number of classe to make sure we have the classes or not
+               if($statisticClasses->count()>0){
+                   foreach ($statisticClasses->children() as $statisticClasse){
+                    $tagClasseLists[]= $statisticClasse->getName();
+                    $attStatisticClasses[]= $statisticClasse->attributes()->classe->__toString();
+                    echo $statisticClasse->getName(), " : ", $statisticClasse->attributes()->classe->__toString(), '<br>',PHP_EOL;   
+                    
+                    foreach ($statisticClasse->children() as $statisticClasseDetail){
+                        $tagClasseListsDetail[]= $statisticClasseDetail->getName();
+                        $contentClasseListsDetail[] = $statisticClasseDetail->__toString();
+                        echo $statisticClasseDetail->getName(), " : ",$statisticClasseDetail->__toString(),'<br>',PHP_EOL;   
+                    }   
+               }
+            }
         }
+    }
 ?>
