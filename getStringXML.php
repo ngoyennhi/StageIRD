@@ -1,5 +1,5 @@
 <?php ini_set('display_errors', 'on'); ?>
-        <?php
+<?php
         $xml = simplexml_load_file(
             //'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL.xml'
             'OSO_20200101_RASTER_V1-0_MTD_ALL.xml'
@@ -9,7 +9,8 @@
             foreach (libxml_get_errors() as $error) {
                 echo '<br>', $error->message;
             }
-        } else {
+        } 
+        else {
             /*Get data form XMl*/
 
             // Muscate_Metadata_Document attributes
@@ -90,12 +91,42 @@
             Bloc: <Product_Organisation>
             */
             //<Distributed_Product>
-            $o_QUICKLOOK = $xml->Product_Organisation->Distributed_Product->QUICKLOOK->__toString();
-            $o_THUMBNAIL = $xml->Product_Organisation->Distributed_Product->THUMBNAIL->__toString();
-            $o_PYRAMID = $xml->Product_Organisation->Distributed_Product->PYRAMID->__toString();
-            $o_ARCHIVE = $xml->Product_Organisation->Distributed_Product->ARCHIVE->__toString();
-            $o_EXPERTISE = $xml->Product_Organisation->Distributed_Product->EXPERTISE->__toString();
-            $o_PUBLIC_METADATA = $xml->Product_Organisation->Distributed_Product->PUBLIC_METADATA->__toString();
+            // $o_QUICKLOOK = $xml->Product_Organisation->Distributed_Product->QUICKLOOK->__toString();
+            // $o_THUMBNAIL = $xml->Product_Organisation->Distributed_Product->THUMBNAIL->__toString();
+            // $o_PYRAMID = $xml->Product_Organisation->Distributed_Product->PYRAMID->__toString();
+            // $o_ARCHIVE = $xml->Product_Organisation->Distributed_Product->ARCHIVE->__toString();
+            // $o_EXPERTISE = $xml->Product_Organisation->Distributed_Product->EXPERTISE->__toString();
+            // $o_PUBLIC_METADATA = $xml->Product_Organisation->Distributed_Product->PUBLIC_METADATA->__toString();
+           
+            $tagDistributed_Product = array();
+            $attDistributed_Product = array();
+            $tagDetailDistributed_Product = array();
+            $contentDetailDistributed_Product = array();
+            $typeProduit = array();
+            foreach ($xml->xpath('//Product_Organisation') as $distributed_Product) {
+                $distributed_Product->getName();
+                echo " Block : ", $distributed_Product->getName(), '<br>',PHP_EOL;
+                // count number of classe to make sure we have the classes or not
+               if($distributed_Product->count()>0){
+                   foreach ($distributed_Product->children() as $produit){
+                        $tagDistributed_Product[]= $produit->getName();
+                        echo $produit->getName(), '<br>',PHP_EOL;   
+
+                        foreach ($produit->children() as $detailDistributed_Product){
+                        $tagDetailDistributed_Product[]= $detailDistributed_Product->getName();
+                        $contentDetailDistributed_Product[] = $detailDistributed_Product->__toString();
+                        echo $detailDistributed_Product->getName(), " : ",$detailDistributed_Product->__toString(),'<br>',PHP_EOL;   
+                        }   
+                    }
+                }
+            }
+            // get type of produits
+            foreach ($contentDetailDistributed_Product as $typeProduits) {
+            // trim()
+            $typeProduit = strstr(trim($typeProduits,'./.'),'.'); 
+            echo $typeProduit,'<br>',PHP_EOL;}
+
+            
 
             /*
             Bloc: <Geoposition_Informations>
@@ -169,26 +200,25 @@
             //Statistic_List
             //$o_Statistic_List = $xml->Statistic_Informations->Statistic_List;
             $tagClasseLists = array();
-            $attStatisticClasses = array();
+            $attStatisticClasses= array();
             $tagClasseListsDetail = array();
             $contentClasseListsDetail = array();
             foreach ($xml->xpath('//Statistic_List') as $statisticClasses) {
                 $statisticClasses->getName();
-                echo " Block : ", $statisticClasses->getName();
+                //echo " Block : ", $statisticClasses->getName();
                 // count number of classe to make sure we have the classes or not
                if($statisticClasses->count()>0){
                    foreach ($statisticClasses->children() as $statisticClasse){
                     $tagClasseLists[]= $statisticClasse->getName();
                     $attStatisticClasses[]= $statisticClasse->attributes()->classe->__toString();
-                    echo $statisticClasse->getName(), " : ", $statisticClasse->attributes()->classe->__toString(), '<br>',PHP_EOL;   
+                    //echo $statisticClasse->getName(), " : ", $statisticClasse->attributes()->classe->__toString(), '<br>',PHP_EOL;   
                     
                     foreach ($statisticClasse->children() as $statisticClasseDetail){
                         $tagClasseListsDetail[]= $statisticClasseDetail->getName();
                         $contentClasseListsDetail[] = $statisticClasseDetail->__toString();
-                        echo $statisticClasseDetail->getName(), " : ",$statisticClasseDetail->__toString(),'<br>',PHP_EOL;   
+                        //echo $statisticClasseDetail->getName(), " : ",$statisticClasseDetail->__toString(),'<br>',PHP_EOL;   
                     }   
                }
             }
         }
     }
-?>
