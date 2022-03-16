@@ -254,11 +254,11 @@ addLevel1($dom,$gmdIdentifiantPROJET_Node[1],'gmd:description','gco:CharacterStr
         addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLatitude','gco:Decimal',$contentPointListsDetail[4]);
         addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLongitude','gco:Decimal',$contentPointListsDetail[5]);
         // OSO: <Point name="lowerRight">
-        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLatitude','gco:Decimal',$contentPointListsDetail[4]);
-        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLongitude','gco:Decimal',$contentPointListsDetail[5]);
+        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLatitude','gco:Decimal',$contentPointListsDetail[8]);
+        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLongitude','gco:Decimal',$contentPointListsDetail[9]);
         // OSO: <Point name="lowerLeft">
-        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLatitude','gco:Decimal',$contentPointListsDetail[4]);
-        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLongitude','gco:Decimal',$contentPointListsDetail[5]);
+        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLatitude','gco:Decimal',$contentPointListsDetail[12]);
+        addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLongitude','gco:Decimal',$contentPointListsDetail[13]);
 
     // //----------------------------------------------------/
     // //gmd:descriptiveKeywords  gmd:MD_Keywords
