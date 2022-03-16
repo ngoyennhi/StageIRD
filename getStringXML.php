@@ -1,8 +1,8 @@
 <?php ini_set('display_errors', 'on'); ?>
 <?php
         $xml = simplexml_load_file(
-            //'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL.xml'
-            'OSO_20200101_RASTER_V1-0_MTD_ALL.xml'
+           'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL.xml'
+            //'OSO_20200101_RASTER_V1-0_MTD_ALL.xml'
         );
         if ($xml === false) {
             echo 'Failed loading XML: ';
@@ -127,8 +127,6 @@
             //echo $typeProduit,'<br>',PHP_EOL;   
             }
 
-            
-
             /*
             Bloc: <Geoposition_Informations>
             */
@@ -150,47 +148,6 @@
 
             //<Geopositioning>
             // <Geopositioning> -> <Global_Geopositioning>
-            // //  Point upperLeft 0
-            // $o_Global_Geopositioning_att_Point_0 = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[0]
-            //     ->attributes()
-            //     ->name->__toString();
-            // $o_Global_Geopositioning_att_Point_0_LAT = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[0]->LAT->__toString();
-            // $o_Global_Geopositioning_att_Point_0_LON = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[0]->LON->__toString();
-            // $o_Global_Geopositioning_att_Point_0_X = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[0]->X->__toString();
-            // $o_Global_Geopositioning_att_Point_0_Y = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[0]->Y->__toString();
-            // //  Point upperRight 1
-            // $o_Global_Geopositioning_att_Point_1 = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[1]
-            //     ->attributes()
-            //     ->name->__toString();
-            // $o_Global_Geopositioning_att_Point_1_LAT = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[1]->LAT->__toString();
-            // $o_Global_Geopositioning_att_Point_1_LON = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[1]->LON->__toString();
-            // $o_Global_Geopositioning_att_Point_1_X = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[1]->X->__toString();
-            // $o_Global_Geopositioning_att_Point_1_Y = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[1]->Y->__toString();
-            // //  Point lowerRight 2
-            // $o_Global_Geopositioning_att_Point_2 = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[2]
-            //     ->attributes()
-            //     ->name->__toString();
-            // $o_Global_Geopositioning_att_Point_2_LAT = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[2]->LAT->__toString();
-            // $o_Global_Geopositioning_att_Point_2_LON = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[2]->LON->__toString();
-            // $o_Global_Geopositioning_att_Point_2_X = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[2]->X->__toString();
-            // $o_Global_Geopositioning_att_Point_2_Y = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[2]->Y->__toString();
-            // //  Point lowerLeft 3
-            // $o_Global_Geopositioning_att_Point_3 = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[3]
-            //     ->attributes()
-            //     ->name->__toString();
-            // $o_Global_Geopositioning_att_Point_3_LAT = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[3]->LAT->__toString();
-            // $o_Global_Geopositioning_att_Point_3_LON = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[3]->LON->__toString();
-            // $o_Global_Geopositioning_att_Point_3_X = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[3]->X->__toString();
-            // $o_Global_Geopositioning_att_Point_3_Y = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[3]->Y->__toString();
-            // //  Point center 4
-            // $o_Global_Geopositioning_att_Point_4 = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[4]
-            //     ->attributes()
-            //     ->name->__toString();
-            // $o_Global_Geopositioning_att_Point_4_LAT = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[4]->LAT->__toString();
-            // $o_Global_Geopositioning_att_Point_4_LON = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[4]->LON->__toString();
-            // $o_Global_Geopositioning_att_Point_4_X = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[4]->X->__toString();
-            // $o_Global_Geopositioning_att_Point_4_Y = $xml->Geoposition_Informations->Geopositioning->Global_Geopositioning->Point[4]->Y->__toString();
-            
             $tagPointLists = array();
             $attExtentPoints= array();
             $tagPointListsDetail = array();

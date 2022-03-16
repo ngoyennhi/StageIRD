@@ -145,42 +145,18 @@
           Bloc: gmd:fileIdentifier - 
           OSO: Dataset_Identification
     ********************************/
-
-        //gmd:fileIdentifier
-        $gmdFileIdentifier_node = $dom->createElement('gmd:fileIdentifier');
-        //gmd:fileIdentifier/gco:CharacterString
-        $gcoCharacterString_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_IDENTIFIER
-        );
-        $gmdFileIdentifier_node->appendChild($gcoCharacterString_node);
-        $root->appendChild($gmdFileIdentifier_node);
-
+    addLevel1($dom,$root,'gmd:fileIdentifier','gco:CharacterString',$o_IDENTIFIER);
     /*********************************  
           Bloc: gmd:language 
           OSO :
     ********************************/
-        //gmd:language
-        $gmdLanguage_node = $dom->createElement('gmd:language');
-        // gmd:language/gco:CharacterString
-        $gcoCharacterString_node = $dom->createElement(
-            'gco:CharacterString',
-            'eng'
-        );
-        $gmdLanguage_node->appendChild($gcoCharacterString_node);
-        $root->appendChild($gmdLanguage_node);
+    addLevel1($dom,$root,'gmd:language','gco:CharacterString','eng');
       
     /*********************************  
           Bloc: gmd:characterSet
           OSO :
     ********************************/
-        //gmd:characterSet
-        $gmdLanguage_node = $dom->createElement('gmd:characterSet');
-        // gmd:characterSet/gmd:MD_CharacterSetCode
-        $gmdMD_CharacterSetCode_node = $dom->createElement(
-            'gmd:MD_CharacterSetCode',
-            'utf8'
-        );
+    addLevel1($dom,$root,'gmd:characterSet','gmd:MD_CharacterSetCode','utf8');
             // $attr_MD_codeList = new DOMAttr(
             //     'codeList',
             //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
@@ -188,82 +164,38 @@
             // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
             // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
             // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
-        $gmdLanguage_node->appendChild($gmdMD_CharacterSetCode_node);
-        $root->appendChild($gmdLanguage_node);
 
     /*********************************  
           Bloc:  gmd:contact
           OSO :  PRODUCER
     ********************************/
-        $gmdContact_node = $dom->createElement('gmd:contact');
-        $gcoCharacterString_node = $dom->createElement(
-            'gco:CharacterString',
-            $o_PRODUCER
-        );
-        $gmdContact_node->appendChild($gcoCharacterString_node);
-        $root->appendChild($gmdContact_node);
+    addLevel1($dom,$root,'gmd:contact','gco:CharacterString',$o_PRODUCER);
 
     /*********************************  
           Bloc:  gmd:locale
           OSO :  GEOGRAPHICAL_ZONE
     ********************************/
-        $gmdLocale_node = $dom->createElement('gmd:locale');
-        $gmdPT_Locale_node = $dom->createElement('gmd:PT_Locale');
-        $gmdPT_Locale_Country_node = $dom->createElement('gmd:country',$o_GEOGRAPHICAL_ZONE);
-        $attrPT_Locale_Country_node = new DOMAttr(
-            'type', $o_GEOGRAPHICAL_ZONE_att_type
-        );
-        $gmdPT_Locale_Country_node->setAttributeNode($attrPT_Locale_Country_node);
-        $gmdPT_Locale_node->appendChild($gmdPT_Locale_Country_node);
-        $gmdLocale_node->appendChild($gmdPT_Locale_node);
-        $root->appendChild($gmdLocale_node);
-
+    $gmdLocale_node=addLevel2($dom,$root,'gmd:locale','gmd:PT_Locale','gmd:country',$o_GEOGRAPHICAL_ZONE);
+    addAttr($gmdLocale_node[2],'type',$o_GEOGRAPHICAL_ZONE_att_type);
+     
     /*********************************  
           Bloc:  gmd:dateStamp
           OSO :  PRODUCTION_DATE
     ********************************/
-        //gmd:dateStamp
-        $gmdDateStamp_node = $dom->createElement('gmd:dateStamp');
-        //gco:DateTime
-        $gcoDateTime_node = $dom->createElement(
-            'gco:DateTime',
-            $o_PRODUCTION_DATE
-        );
-        $gmdDateStamp_node->appendChild($gcoDateTime_node);
-        $root->appendChild($gmdDateStamp_node);
-
-
+    addLevel1($dom,$root,'gmd:dateStamp','gco:DateTime',$o_PRODUCTION_DATE);
+    
     /*********************************  
           Bloc:  gmd:metadataStandardName
           OSO :  TITLE
     ********************************/
-        //gmd:metadataStandardName
-        $gmdMetadataStandardName_node = $dom->createElement(
-            'gmd:metadataStandardName',
-        );
-        //gco:CharacterString
-        $gcoCharacterString = $dom->createElement(
-            'gco:CharacterString',
-            'ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data'
-        );
-        $gmdMetadataStandardName_node->appendChild($gcoCharacterString);
-        $root->appendChild($gmdMetadataStandardName_node);
+    addLevel1($dom,$root,'gmd:metadataStandardName','gco:CharacterString','ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data');
 
     /*********************************  
           Bloc:  gmd:metadataStandardVersion
           OSO :  
     ********************************/
-        //gmd:metadataStandardVersion
-        $gmdMetadataStandardVersion_node = $dom->createElement(
-            'gmd:metadataStandardVersion',
-        );
-        //gco:CharacterString
-        $gcoCharacterString = $dom->createElement(
-            'gco:CharacterString',
-            'ISO 19115-2:2009(E)'
-        );
-        $gmdMetadataStandardVersion_node->appendChild($gcoCharacterString);
-        $root->appendChild($gmdMetadataStandardVersion_node);
+    addLevel1($dom,$root,'gmd:metadataStandardVersion','gco:CharacterString','ISO 19115-2:2009(E)');
+       
     /*********************************  
           Bloc: gmd:MD_DataIdentification
           OSO: Product_Characteristics
@@ -362,12 +294,17 @@ $root->appendChild($gmdMD_DataIdentification_node);
         $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
         $root->appendChild($gmdMD_Distribution_node);
          
-    
-    
-    /*********************************  
+/*********************************  
+          Bloc: gmi:platform
+          OSO: PLATFORM
+********************************/
+$gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
+addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
+
+ /*********************************  
           Bloc: gmd:referenceSystemInfo
           OSO: GEO_TABLES
-    ********************************/
+ ********************************/
         $gmdReferenceSystemInfo_node = addLevel3($dom,$root,'gmd:referenceSystemInfo','gmd:MD_ReferenceSystem','gmd:referenceSystemIdentifier','gmd:RS_Identifier','');
         $gmdAuthority_node = addLevel0($dom,$gmdReferenceSystemInfo_node[3],'gmd:authority','');
             // OSO <GEO_TABLES>
@@ -380,7 +317,6 @@ $root->appendChild($gmdMD_DataIdentification_node);
             addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_NAME');
         // OSO <HORIZONTAL_CS_CODE> 
         addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
-   
 
         //----ROOT--------ROOT--------ROOT--------ROOT----
         //appendChild $root
