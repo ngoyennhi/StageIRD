@@ -389,6 +389,60 @@
                 $tagLevel5 = array();
                 $contentLevel5 = array();
 
+/*********************************  
+                 Bloc: Functions
+********************************/
+                /**
+                 * function add a NODE level 0
+                 */
+                function addLevel0($dom,$node,$tag0,$content){
+                    $c0 = $dom->createElement($tag0,$content);
+                    $node->appendChild($c0);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 1
+                 */
+                function addLevel1($dom,$node,$tag0,$tag1,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $c1 = $dom->createElement($tag1,$content);
+                    $l1->appendChild($c1);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 2
+                 */
+                function addLevel2($dom,$node,$tag0,$tag1,$tag2,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $l2 = $dom->createElement($tag1);
+                    $c1 = $dom->createElement($tag2,$content);
+                    $l2->appendChild($c1);
+                    $l1->appendChild($l2);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 3
+                 */
+                function addLevel3($dom,$node,$tag0,$tag1,$tag2,$tag3,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $l2 = $dom->createElement($tag1);
+                    $l3 = $dom->createElement($tag2);
+                    $c2 = $dom->createElement($tag3,$content);
+                    $l3->appendChild($c2);
+                    $l2->appendChild($l3);
+                    $l1->appendChild($l2);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add Attribute for a NODE
+                 */
+                function addAttr($tag,$attrName,$attrString){
+                    $attr = new DOMAttr ($attrName,$attrString);
+                    $tag->setAttributeNode($attr);
+                };   
 
                 //Get all informations of Distributed_Product ( from XML orifinal)
                 //Step read XMLoriginal
@@ -405,17 +459,129 @@
                     ->type->__toString();
                     
 
-                foreach ($xml->xpath('//Distributed_Product') as $distributedProducts) {
-                    $distributedProducts->getName();
-                    foreach ($distributedProducts->children() as $distributedProduct){
-                        $tagLevel1[]= $distributedProduct->getName();
-                        $contentLevel1[] = $distributedProduct->__toString();
-                        echo $distributedProduct->getName(), " : ", $distributedProduct->__toString(), PHP_EOL;   
-                    }   
+                // foreach ($xml->xpath('//Distributed_Product') as $distributedProducts) {
+                //     $distributedProducts->getName();
+                //     foreach ($distributedProducts->children() as $distributedProduct){
+                //         $tagLevel1[]= $distributedProduct->getName();
+                //         $contentLevel1[] = $distributedProduct->__toString();
+                //         //echo $distributedProduct->getName(), " : ", $distributedProduct->__toString(), PHP_EOL;   
+                //     }   
+                // }
+
+            $tagDistributed_Product = array();
+            $attDistributed_Product = array();
+            $tagDetailDistributed_Product = array();
+            $contentDetailDistributed_Product = array();
+            $typeProduit = array();
+            foreach ($xml->xpath('//Product_Organisation') as $distributed_Product) {
+                $distributed_Product->getName();
+                echo " Block : ", $distributed_Product->getName(), '<br>',PHP_EOL;
+                // count number of classe to make sure we have the classes or not
+               if($distributed_Product->count()>0){
+                   foreach ($distributed_Product->children() as $produit){
+                        $tagDistributed_Product[]= $produit->getName();
+                        echo $produit->getName(), '<br>',PHP_EOL;   
+
+                        foreach ($produit->children() as $detailDistributed_Product){
+                        $tagDetailDistributed_Product[]= $detailDistributed_Product->getName();
+                        $contentDetailDistributed_Product[] = $detailDistributed_Product->__toString();
+                        echo $detailDistributed_Product->getName(), " : ",$detailDistributed_Product->__toString(),'<br>',PHP_EOL;   
+                        }   
+                    }
                 }
-
-
+            }
+            // get type of produits
+            foreach ($contentDetailDistributed_Product as $typeProduits) {
+            // trim()
+            $typeProduit = strstr(trim($typeProduits,'./.'),'.'); 
+            echo $typeProduit,'<br>',PHP_EOL;}
                
+                // export
+                $dom = new DOMDocument();
+                $dom->encoding = 'utf-8';
+                $dom->xmlVersion = '1.0';
+                $dom->formatOutput = true;
+                $xml_file_name =
+                    'XML_ISO_test.xml';
+                $root = $dom->createElement('gmi:MI_Metadata');
+                $gmdMD_Distribution_node = $dom->createElement('gmd:MD_Distribution');
+                $gmdMD_Distribution_citation_node = $dom->createElement('gmd:citation');
+                $gmdMD_Distribution_citation_CI_Citation_node = $dom->createElement('gmd:CI_Citation');
+
+                $data = array_combine($tagDetailDistributed_Product,$contentDetailDistributed_Product);
+               
+                foreach ($data as $key => $produit) {
+                    // if(!is_null($produit))
+                    // {$produit = $dom->createElement($key,$produit);}
+                    // else
+                    // {$produit = $dom->createElement($key);}   
+                    // $produits->appendChild($produit);
+                    // $root->appendChild($produits);
+
+                    if(!is_null($produit))
+                    {   addLevel2($dom,$gmdMD_Distribution_citation_CI_Citation_node,'gmd:MD_Format','gmd:title','gco:CharacterString',$produit);
+
+                        addLevel1($dom,$gmdMD_Distribution_citation_CI_Citation_node,'gmd:MD_Format','gmd:distributionFormat',strstr(trim($produit,'./.'),'.'));
+                        
+                        addLevel2($dom,$gmdMD_Distribution_citation_CI_Citation_node,'gmd:MD_Format','gmd:description','gco:CharacterString',$key);
+
+                        //$produit = $dom->createElement($key,$produit)
+                        }
+
+                    //code        
+                }     
+
+                // <gmd:MD_Format>       
+                //     <gmd:title>
+                //         <gco:CharacterString>OSO_20200101_VECTOR_departement_01_V1-0.zip</gco:CharacterString>
+                //     </gmd:title>                    
+                //     <gmd:distributionFormat>zip</gmd:distributionFormat>
+                //     <gmd:fileDecompressionTechnique>zip</gmd:fileDecompressionTechnique>
+                //     <gmd:description>
+                //         <gco:CharacterString>ARCHIVE</gco:CharacterString>
+                //     </gmd:description>
+                // <gmd:MD_Format> 
+                
+
+                // function addLevel1($dom,$root,$tag0,$tag1,$content)
+                // function addLevel2($dom,$root,$tag0,$tag1,$tag2,$content)
+                // function addLevel3($dom,$root,$tag0,$tag1,$tag2,$tag3,$content)
+                // function addAttr($tag,$attrName,$attrString)
+
+
+                // foreach ($tagLevel1 as $produit) {
+                //     $produit = $dom->createElement($produit);
+                //     $produits->appendChild($produit);
+                //     $root->appendChild($produits);
+                // }
+                //----ROOT--------ROOT--------ROOT--------ROOT----
+                //appendChild $root
+                $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
+                $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
+                $root->appendChild($gmdMD_Distribution_node);
+                $dom->appendChild($root);
+              // save data
+               $dom->save($xml_file_name);
+               echo "$xml_file_name has been successfully created and saved";
+
+
+
+
+
+
+///* exemple foreach 3 : la clé et la valeur */
+
+// $a = array(
+//     "un" => 1,
+//     "deux" => 2,
+//     "trois" => 3,
+//     "dix-sept" => 17
+// );
+
+// foreach ($a as $k => $v) {
+//     echo "\$a[$k] => $v.\n";
+// }
+
 
                 // if ($xml === false) {
                 //     echo 'Failed loading XML: ';

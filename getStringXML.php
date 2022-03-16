@@ -200,18 +200,19 @@
                 //echo " Extent : ", $extentPoints->getName() , '<br>',PHP_EOL;   
                 // count number of Point to make sure we have the Points or not
                if($extentPoints->count()>0){
+                   //Position of points 
                    foreach ($extentPoints->children() as $extentPoint){
                     $tagPointLists[]= $extentPoint->getName();
                     $attExtentPoints[]= $extentPoint->attributes()->name->__toString();
                    //echo $extentPoint->getName(), " : ",$extentPoint->attributes()->name->__toString(), '<br>',PHP_EOL;   
-                    
-                    foreach ($extentPoint->children() as $extentPointDetail){
-                        $tagPointListsDetail[]= $extentPointDetail->getName();
-                        $contentPointListsDetail[] = $extentPointDetail->__toString();
-                        //echo $extentPointDetail->getName(), " : ",$extentPointDetail->__toString(),'<br>',PHP_EOL;   
-                      }   
-                 }
-              }
+                        //LON LAT X Y
+                        foreach ($extentPoint->children() as $extentPointDetail){
+                            $tagPointListsDetail[]= $extentPointDetail->getName();
+                            $contentPointListsDetail[] = $extentPointDetail->__toString();
+                            //echo $extentPointDetail->getName(), " : ",$extentPointDetail->__toString(),'<br>',PHP_EOL;   
+                        }   
+                    }
+                }
             }
 
             /*
