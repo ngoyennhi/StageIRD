@@ -489,7 +489,7 @@ if (is_array($files)) {
                     OSO: PLATFORM
             ********************************/
             $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
-            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
+            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString','SENTINEL-2');
             
             /*********************************  
                      Bloc: gmd:referenceSystemInfo
