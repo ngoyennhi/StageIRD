@@ -88,10 +88,21 @@ function before ($char, $string){
     
 ?>
 <?php
-$files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/*xml");
+$files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/data/*xml");
+
 if (is_array($files)) {
     foreach($files as $filename) {
-       $xml = simplexml_load_file($filename);
+        $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
+       var_dump($o_XML_filename);
+        $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
+        var_dump($xml_file_name);
+        $path = '/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/'.$xml_file_name;
+        if (file_exists($path)) {
+            unlink($path);
+        } 
+         
+        $xml = simplexml_load_file($filename);
+
         //-------------------------------------
         // and proceed with get String form XML
         //-------------------------------------
@@ -286,20 +297,15 @@ if (is_array($files)) {
             $dom->encoding = 'utf-8';
             $dom->xmlVersion = '1.0';
             $dom->formatOutput = true;
-            $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
-            $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
-            var_dump($xml_file_name);
-    
             // // If the $xml_file_name file in existing directory already exist, delete it by unlink()
             // if (!unlink($xml_file_name)) {
             //     echo "$file_pointer cannot be deleted due to an error";
             // } else {
-                
-        
-        /*********************************  
+
+            /*********************************  
               gmi:MI_Metadata
               OSO - <Metadata_Identification>
-         ********************************/
+             ********************************/
     
             // START Un premier élément'gmi:MI_Metadata'
     
@@ -325,22 +331,22 @@ if (is_array($files)) {
     
             /* Data - NODEs and add node into its parent by appendChild */
     
-        /*********************************  
+             /*********************************  
               Bloc: gmd:fileIdentifier - 
               OSO: Dataset_Identification
-        ********************************/
-        addLevel1($dom,$root,'gmd:fileIdentifier','gco:CharacterString',$o_IDENTIFIER);
-        /*********************************  
+             ********************************/
+            addLevel1($dom,$root,'gmd:fileIdentifier','gco:CharacterString',$o_IDENTIFIER);
+            /*********************************  
               Bloc: gmd:language 
               OSO :
-        ********************************/
-        addLevel1($dom,$root,'gmd:language','gco:CharacterString','eng');
+            ********************************/
+             addLevel1($dom,$root,'gmd:language','gco:CharacterString','eng');
           
-        /*********************************  
+             /*********************************  
               Bloc: gmd:characterSet
               OSO :
-        ********************************/
-        addLevel1($dom,$root,'gmd:characterSet','gmd:MD_CharacterSetCode','utf8');
+             ********************************/
+             addLevel1($dom,$root,'gmd:characterSet','gmd:MD_CharacterSetCode','utf8');
                 // $attr_MD_codeList = new DOMAttr(
                 //     'codeList',
                 //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
@@ -349,165 +355,165 @@ if (is_array($files)) {
                 // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
                 // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
     
-        /*********************************  
-              Bloc:  gmd:contact
-              OSO :  PRODUCER
-        ********************************/
-        addLevel1($dom,$root,'gmd:contact','gco:CharacterString',$o_PRODUCER);
-    
-        /*********************************  
-              Bloc:  gmd:locale
-              OSO :  GEOGRAPHICAL_ZONE
-        ********************************/
-        $gmdLocale_node=addLevel2($dom,$root,'gmd:locale','gmd:PT_Locale','gmd:country',$o_GEOGRAPHICAL_ZONE);
-        addAttr($gmdLocale_node[2],'type',$o_GEOGRAPHICAL_ZONE_att_type);
-         
-        /*********************************  
-              Bloc:  gmd:dateStamp
-              OSO :  PRODUCTION_DATE
-        ********************************/
-        addLevel1($dom,$root,'gmd:dateStamp','gco:DateTime',$o_PRODUCTION_DATE);
+            /*********************************  
+                 Bloc:  gmd:contact
+                OSO :  PRODUCER
+            ********************************/
+            addLevel1($dom,$root,'gmd:contact','gco:CharacterString',$o_PRODUCER);
         
-        /*********************************  
-              Bloc:  gmd:metadataStandardName
-              OSO :  TITLE
-        ********************************/
-        addLevel1($dom,$root,'gmd:metadataStandardName','gco:CharacterString','ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data');
-    
-        /*********************************  
-              Bloc:  gmd:metadataStandardVersion
-              OSO :  
-        ********************************/
-        addLevel1($dom,$root,'gmd:metadataStandardVersion','gco:CharacterString','ISO 19115-2:2009(E)');
-           
-        /*********************************  
-              Bloc: gmd:MD_DataIdentification
-              OSO: Product_Characteristics
-        ********************************/
-        $gmdMD_DataIdentification_node = $dom->createElement('gmd:MD_DataIdentification');
-        //----------------------------------------------------/
-        //OSO: <TITLE>Produit carte d'occupation des sols</TITLE>
-        //----------------------------------------------------/
-        // $gmdCitationNodeArr[] is a array of a listNODE childs gmd:citation-0 gmd:CI_citation-1 gmd:title-2 gco:CharacterString-3 
-        $gmdCitationNodeArr = addLevel3($dom,$gmdMD_DataIdentification_node,'gmd:citation','gmd:CI_citation',
-        'gmd:title','gco:CharacterString',$o_TITLE); 
-        //----------------------------------------------------/
-        //OSO: <ACQUISITION_DATE>
-        //----------------------------------------------------/      
-        $gmdACQUISITIONDate_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:date','gmd:CI_Date','');
-        addLevel1($dom,$gmdACQUISITIONDate_Node[1],'gmd:date','gco:DateTime',$o_ACQUISITION_DATE);
-        addLevel1($dom,$gmdACQUISITIONDate_Node[1],'gmd:dateType','gmd:CI_DateTypeCode',$xml->Product_Characteristics->ACQUISITION_DATE->getName());
-        //----------------------------------------------------/
-        //OSO: <PRODUCTION_DATE>
-        //----------------------------------------------------/
-        $gmdPRODUCTIONDate_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:date','gmd:CI_Date','');
-        addLevel1($dom,$gmdPRODUCTIONDate_Node[1],'gmd:date','gco:DateTime',$o_PRODUCTION_DATE);
-        addLevel1($dom,$gmdPRODUCTIONDate_Node[1],'gmd:dateType','gmd:CI_DateTypeCode',$xml->Product_Characteristics->PRODUCTION_DATE->getName());
-        //----------------------------------------------------/
-        //OSO: <PRODUCT_LEVEL>
-        //----------------------------------------------------/
-        $gmdSeries_Node = addLevel0($dom,$gmdCitationNodeArr[1],'gmd:series','');
-        addLevel2($dom,$gmdSeries_Node,'gmd:CI_Series','gmd:name','gco:CharacterString',$o_PRODUCT_LEVEL);
-    //----------------------------------------------------/
-    //OSO: <AUTHORITY>
-    //----------------------------------------------------/
-    $gmdAuthority_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:authority','gco:CharacterString',$o_AUTHORITY);
-    
-    //----------------------------------------------------/
-    //OSO: <PRODUCT_ID> and <PRODUCT_VERSION>
-    //----------------------------------------------------/
-    $gmdIdentifiantPRODUCT_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:identifier','gmd:MD_Identifier','');
-    addLevel1($dom,$gmdIdentifiantPRODUCT_Node[1],'gmd:code','gco:CharacterString',$o_PRODUCT_ID);
-    addLevel1($dom,$gmdIdentifiantPRODUCT_Node[1],'gmd:version','gco:CharacterString',$o_PRODUCT_VERSION);
-    
-    //----------------------------------------------------/
-    //OSO: <PROJET_ID>
-    //----------------------------------------------------/
-    $gmdIdentifiantPROJET_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:identifier','gmd:MD_Identifier','');
-    addLevel1($dom,$gmdIdentifiantPROJET_Node[1],'gmd:code','gco:CharacterString',$o_PROJECT );
-    addLevel1($dom,$gmdIdentifiantPROJET_Node[1],'gmd:description','gco:CharacterString',$xml->Dataset_Identification->PROJECT->getName());
-    
-    //----------------------------------------------------/
-    //OSO: <Geopositioning>
-    //----------------------------------------------------/
-        $gmdGeographicElement_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:extent','gmd:geographicElement','');   
-            // OSO: <Point name="upperLeft">
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:westBoundLatitude','gco:Decimal',$contentPointListsDetail[0]);
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:westBoundLongitude','gco:Decimal',$contentPointListsDetail[1]);
-            // OSO: <Point name="upperRight">
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLatitude','gco:Decimal',$contentPointListsDetail[4]);
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLongitude','gco:Decimal',$contentPointListsDetail[5]);
-            // OSO: <Point name="lowerRight">
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLatitude','gco:Decimal',$contentPointListsDetail[8]);
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLongitude','gco:Decimal',$contentPointListsDetail[9]);
-            // OSO: <Point name="lowerLeft">
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLatitude','gco:Decimal',$contentPointListsDetail[12]);
-            addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLongitude','gco:Decimal',$contentPointListsDetail[13]);
-    
-        // //----------------------------------------------------/
-        // //gmd:descriptiveKeywords  gmd:MD_Keywords
-        // //----------------------------------------------------/  
-        // $gmdDescriptiveKeywords_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords',''); 
-    
-    $root->appendChild($gmdMD_DataIdentification_node);
-        /*********************************  
-              Bloc: gmd:MD_Distribution
-              OSO: Distributed_Product
-        ********************************/
-            $gmdMD_Distribution_node = $dom->createElement('gmd:MD_Distribution');
-                        $gmdMD_Distribution_citation_node = $dom->createElement('gmd:citation');
-                            $gmdMD_Distribution_citation_CI_Citation_node = $dom->createElement('gmd:CI_Citation');
-    
-                            $data = array_combine($tagDetailDistributed_Product,$contentDetailDistributed_Product);
-                        
-                            foreach ($data as $key => $produit) {
-                                if(!is_null($produit))
-                                {   
-                                    $gmdMD_Format_node = $dom->createElement('gmd:MD_Format'); 
-    
-                                    addLevel1($dom,$gmdMD_Format_node,'gmd:title','gco:CharacterString',$produit);
-    
-                                    addLevel0($dom,$gmdMD_Format_node,'gmd:distributionFormat',strstr(trim($produit,'./.'),'.'));
-                                    
-                                    addLevel1($dom,$gmdMD_Format_node,'gmd:description','gco:CharacterString',$key);
-    
-                                    $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node);
-                                    }
-                            } 
-            $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
-            $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
-            $root->appendChild($gmdMD_Distribution_node);
-             
-    /*********************************  
-              Bloc: gmi:platform
-              OSO: PLATFORM
-    ********************************/
-    $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
-    addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
-    
-     /*********************************  
-              Bloc: gmd:referenceSystemInfo
-              OSO: GEO_TABLES
-     ********************************/
-            $gmdReferenceSystemInfo_node = addLevel3($dom,$root,'gmd:referenceSystemInfo','gmd:MD_ReferenceSystem','gmd:referenceSystemIdentifier','gmd:RS_Identifier','');
-            $gmdAuthority_node = addLevel0($dom,$gmdReferenceSystemInfo_node[3],'gmd:authority','');
-                // OSO <GEO_TABLES>
-                addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_GEO_TABLES);       
-                // OSO <HORIZONTAL_CS_TYPE>
-                $citationNODE =addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_HORIZONTAL_CS_TYPE);    
-                addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_TYPE');
-                // OSO <HORIZONTAL_CS_NAME>
-                $citationNODE =addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_HORIZONTAL_CS_NAME);    
-                addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_NAME');
-            // OSO <HORIZONTAL_CS_CODE> 
-            addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
-    
-            //----ROOT--------ROOT--------ROOT--------ROOT----
-            //appendChild $root
-            $dom->appendChild($root);
-            // save data
-            $dom->save($xml_file_name);
-            echo "$xml_file_name has been successfully created and saved";
-        }
+            /*********************************  
+                 Bloc:  gmd:locale
+                OSO :  GEOGRAPHICAL_ZONE
+            ********************************/
+            $gmdLocale_node=addLevel2($dom,$root,'gmd:locale','gmd:PT_Locale','gmd:country',$o_GEOGRAPHICAL_ZONE);
+            addAttr($gmdLocale_node[2],'type',$o_GEOGRAPHICAL_ZONE_att_type);
+            
+            /*********************************  
+                 Bloc:  gmd:dateStamp
+                OSO :  PRODUCTION_DATE
+            ********************************/
+            addLevel1($dom,$root,'gmd:dateStamp','gco:DateTime',$o_PRODUCTION_DATE);
+            
+            /*********************************  
+                 Bloc:  gmd:metadataStandardName
+                OSO :  TITLE
+            ********************************/
+            addLevel1($dom,$root,'gmd:metadataStandardName','gco:CharacterString','ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data');
+        
+            /*********************************  
+                 Bloc:  gmd:metadataStandardVersion
+                OSO :  
+            ********************************/
+            addLevel1($dom,$root,'gmd:metadataStandardVersion','gco:CharacterString','ISO 19115-2:2009(E)');
+            
+            /*********************************  
+                 Bloc: gmd:MD_DataIdentification
+                OSO: Product_Characteristics
+            ********************************/
+            $gmdMD_DataIdentification_node = $dom->createElement('gmd:MD_DataIdentification');
+            //----------------------------------------------------/
+            //OSO: <TITLE>Produit carte d'occupation des sols</TITLE>
+            //----------------------------------------------------/
+            // $gmdCitationNodeArr[] is a array of a listNODE childs gmd:citation-0 gmd:CI_citation-1 gmd:title-2 gco:CharacterString-3 
+            $gmdCitationNodeArr = addLevel3($dom,$gmdMD_DataIdentification_node,'gmd:citation','gmd:CI_citation',
+            'gmd:title','gco:CharacterString',$o_TITLE); 
+            //----------------------------------------------------/
+            //OSO: <ACQUISITION_DATE>
+            //----------------------------------------------------/      
+            $gmdACQUISITIONDate_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:date','gmd:CI_Date','');
+            addLevel1($dom,$gmdACQUISITIONDate_Node[1],'gmd:date','gco:DateTime',$o_ACQUISITION_DATE);
+            addLevel1($dom,$gmdACQUISITIONDate_Node[1],'gmd:dateType','gmd:CI_DateTypeCode',$xml->Product_Characteristics->ACQUISITION_DATE->getName());
+            //----------------------------------------------------/
+            //OSO: <PRODUCTION_DATE>
+            //----------------------------------------------------/
+            $gmdPRODUCTIONDate_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:date','gmd:CI_Date','');
+            addLevel1($dom,$gmdPRODUCTIONDate_Node[1],'gmd:date','gco:DateTime',$o_PRODUCTION_DATE);
+            addLevel1($dom,$gmdPRODUCTIONDate_Node[1],'gmd:dateType','gmd:CI_DateTypeCode',$xml->Product_Characteristics->PRODUCTION_DATE->getName());
+            //----------------------------------------------------/
+            //OSO: <PRODUCT_LEVEL>
+            //----------------------------------------------------/
+            $gmdSeries_Node = addLevel0($dom,$gmdCitationNodeArr[1],'gmd:series','');
+            addLevel2($dom,$gmdSeries_Node,'gmd:CI_Series','gmd:name','gco:CharacterString',$o_PRODUCT_LEVEL);
+            //----------------------------------------------------/
+            //OSO: <AUTHORITY>
+            //----------------------------------------------------/
+            $gmdAuthority_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:authority','gco:CharacterString',$o_AUTHORITY);
+            
+            //----------------------------------------------------/
+            //OSO: <PRODUCT_ID> and <PRODUCT_VERSION>
+            //----------------------------------------------------/
+            $gmdIdentifiantPRODUCT_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:identifier','gmd:MD_Identifier','');
+            addLevel1($dom,$gmdIdentifiantPRODUCT_Node[1],'gmd:code','gco:CharacterString',$o_PRODUCT_ID);
+            addLevel1($dom,$gmdIdentifiantPRODUCT_Node[1],'gmd:version','gco:CharacterString',$o_PRODUCT_VERSION);
+            
+            //----------------------------------------------------/
+            //OSO: <PROJET_ID>
+            //----------------------------------------------------/
+            $gmdIdentifiantPROJET_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:identifier','gmd:MD_Identifier','');
+            addLevel1($dom,$gmdIdentifiantPROJET_Node[1],'gmd:code','gco:CharacterString',$o_PROJECT );
+            addLevel1($dom,$gmdIdentifiantPROJET_Node[1],'gmd:description','gco:CharacterString',$xml->Dataset_Identification->PROJECT->getName());
+            
+            //----------------------------------------------------/
+            //OSO: <Geopositioning>
+            //----------------------------------------------------/
+                $gmdGeographicElement_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:extent','gmd:geographicElement','');   
+                    // OSO: <Point name="upperLeft">
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:westBoundLatitude','gco:Decimal',$contentPointListsDetail[0]);
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:westBoundLongitude','gco:Decimal',$contentPointListsDetail[1]);
+                    // OSO: <Point name="upperRight">
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLatitude','gco:Decimal',$contentPointListsDetail[4]);
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:eastBoundLongitude','gco:Decimal',$contentPointListsDetail[5]);
+                    // OSO: <Point name="lowerRight">
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLatitude','gco:Decimal',$contentPointListsDetail[8]);
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:southBoundLongitude','gco:Decimal',$contentPointListsDetail[9]);
+                    // OSO: <Point name="lowerLeft">
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLatitude','gco:Decimal',$contentPointListsDetail[12]);
+                    addLevel1($dom,$gmdGeographicElement_Node[1],'gmd:northBoundLongitude','gco:Decimal',$contentPointListsDetail[13]);
+            
+                // //----------------------------------------------------/
+                // //gmd:descriptiveKeywords  gmd:MD_Keywords
+                // //----------------------------------------------------/  
+                // $gmdDescriptiveKeywords_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords',''); 
+            
+            $root->appendChild($gmdMD_DataIdentification_node);
+                /*********************************  
+                     Bloc: gmd:MD_Distribution
+                    OSO: Distributed_Product
+                ********************************/
+                    $gmdMD_Distribution_node = $dom->createElement('gmd:MD_Distribution');
+                                $gmdMD_Distribution_citation_node = $dom->createElement('gmd:citation');
+                                    $gmdMD_Distribution_citation_CI_Citation_node = $dom->createElement('gmd:CI_Citation');
+            
+                                    $data = array_combine($tagDetailDistributed_Product,$contentDetailDistributed_Product);
+                                
+                                    foreach ($data as $key => $produit) {
+                                        if(!is_null($produit))
+                                        {   
+                                            $gmdMD_Format_node = $dom->createElement('gmd:MD_Format'); 
+            
+                                            addLevel1($dom,$gmdMD_Format_node,'gmd:title','gco:CharacterString',$produit);
+            
+                                            addLevel0($dom,$gmdMD_Format_node,'gmd:distributionFormat',strstr(trim($produit,'./.'),'.'));
+                                            
+                                            addLevel1($dom,$gmdMD_Format_node,'gmd:description','gco:CharacterString',$key);
+            
+                                            $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node);
+                                            }
+                                    } 
+                    $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
+                    $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
+                    $root->appendChild($gmdMD_Distribution_node);
+                    
+            /*********************************  
+                     Bloc: gmi:platform
+                    OSO: PLATFORM
+            ********************************/
+            $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
+            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
+            
+            /*********************************  
+                     Bloc: gmd:referenceSystemInfo
+                    OSO: GEO_TABLES
+            ********************************/
+                    $gmdReferenceSystemInfo_node = addLevel3($dom,$root,'gmd:referenceSystemInfo','gmd:MD_ReferenceSystem','gmd:referenceSystemIdentifier','gmd:RS_Identifier','');
+                    $gmdAuthority_node = addLevel0($dom,$gmdReferenceSystemInfo_node[3],'gmd:authority','');
+                        // OSO <GEO_TABLES>
+                        addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_GEO_TABLES);       
+                        // OSO <HORIZONTAL_CS_TYPE>
+                        $citationNODE =addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_HORIZONTAL_CS_TYPE);    
+                        addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_TYPE');
+                        // OSO <HORIZONTAL_CS_NAME>
+                        $citationNODE =addLevel2($dom,$gmdAuthority_node,'gmd:CI_Citation','gmd:title','gco:CharacterString',$o_HORIZONTAL_CS_NAME);    
+                        addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_NAME');
+                    // OSO <HORIZONTAL_CS_CODE> 
+                    addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
+            
+                    //----ROOT--------ROOT--------ROOT--------ROOT----
+                    //appendChild $root
+                    $dom->appendChild($root);
+                    // save data
+                    $dom->save("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/".$xml_file_name);
+                    echo "$xml_file_name has been successfully created and saved";
+                };
     }// end foreach
 }// end if
