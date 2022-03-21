@@ -287,8 +287,8 @@ if (is_array($files)) {
             $dom->xmlVersion = '1.0';
             $dom->formatOutput = true;
             $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
-            $xml_file_name = before('.',$o_XML_filename).'.xml';
-    
+            $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
+            var_dump($xml_file_name);
     
             // // If the $xml_file_name file in existing directory already exist, delete it by unlink()
             // if (!unlink($xml_file_name)) {
