@@ -1,4 +1,5 @@
 <?php ini_set('display_errors', 'on'); 
+include('thesaurus.php'); // for 2 function :)) lines 494 -- 501 
 //libxml_disable_entity_loader(false); 
 function before ($char, $string){
     return substr($string, 0, strpos($string, $char,));
@@ -93,9 +94,9 @@ $files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/data/*xml");
 if (is_array($files)) {
     foreach($files as $filename) {
         $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
-       var_dump($o_XML_filename);
+       //var_dump($o_XML_filename);
         $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
-        var_dump($xml_file_name);
+        //var_dump($xml_file_name);
         $path = '/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/'.$xml_file_name;
         if (file_exists($path)) {
             unlink($path);
@@ -489,8 +490,16 @@ if (is_array($files)) {
                     OSO: PLATFORM
             ********************************/
             $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
-            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString','SENTINEL-2');
-            
+            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
+          ///// dang lam toi day, moi duong like se tro thanh 1 linkage URL cua keyword
+            foreach (get_url_list('sentinel-2') as $value) {
+                addLevel1($dom,$gmdPlatform_node[3],'gmd:linkage','gmd:URL',$value);
+            }
+// ex:           
+// <gmd:linkage>
+// <gmd:URL>http://gcmd.nasa.gov/Resources/valids/</gmd:URL>
+// </gmd:linkage>
+         
             /*********************************  
                      Bloc: gmd:referenceSystemInfo
                     OSO: GEO_TABLES
