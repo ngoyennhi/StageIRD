@@ -514,40 +514,16 @@ if (is_array($files)) {
                      Bloc: gmd:descriptiveKeywords
                     OSO: 
             ********************************/
-                $keyword_Platform ='sentinel2';
-                $keyword_Theme = 'landCover';
+                $keyword_Platform ='Sentinel - 2';
+                $keyword_Theme = 'Land cover';
              
                 $gmdDescriptiveKeywords_node = addLevel1($dom,$root,'gmd:descriptiveKeywords','gmd:MD_Keywords','');
-    
-                $keyword_Platform_node = addLevel1($dom,$gmdDescriptiveKeywords_node[0],'gmd:keyword','gmx:Anchor',$keyword_Platform);
-                $keyword_Theme_node = addLevel1($dom,$gmdDescriptiveKeywords_node[0],'gmd:keyword','gmx:Anchor', $keyword_Theme);
-                addAttr($keyword_Platform_node[1],"xlink:href",get_url($keyword_Platform));
-                addAttr($keyword_Theme_node[1],"xlink:href",get_url($keyword_Theme));
+
+                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Platform);
+                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme);
 
                 $root->appendChild($gmdDescriptiveKeywords_node[0]);
-                // foreach (get_url_list($keyword_Platform) as $value) {
-                //     addLevel1($dom,$gmdDescriptiveKeywords_node[3],'gmd:keyword','gmx:Anchor',$value);
-                // }
-
-                //     <gmd:MD_Keywords>
-                //         <gmd:keyword>
-                //             <gmx:Anchor xlink:href='https://www.eionet.europa.eu/gemet/en/inspire-theme/bu'>Buildings</gmx:Anchor>
-                //         </gmd:keyword>
-                //         <gmd:keyword>
-                //             <gmx:Anchor xlink:href='https://www.eionet.europa.eu/gemet/en/inspire-theme/lc'>Land Cover</gmx:Anchor>
-                //         </gmd:keyword>
-                //     </gmd:MD_Keywords>
-                // </gmd:descriptiveKeywords>
-
-                    // /**
-                    //  * function add Attribute for a NODE
-                    //  */
-                    // function addAttr($tag,$attrName,$attrString){
-                    //     $attr = new DOMAttr ($attrName,$attrString);
-                    //     $tag->setAttributeNode($attr);
-                    // };  
-
-
+       
                     //----ROOT--------ROOT--------ROOT--------ROOT----
                     //appendChild $root
                     $dom->appendChild($root);
