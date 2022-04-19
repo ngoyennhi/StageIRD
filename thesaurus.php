@@ -16,10 +16,9 @@
  * Thesaurus URI
  */
 function get_url($line){
-    $title_thesaurus = before(';',$line);
-    //cut title of thesaurus, get url 
-    trim($line,$title_thesaurus.';');
-
+    //get url 
+    $url_thesaurus = strrchr( $line, ';');
+    return $url_thesaurus;
 };
 function get_url_list($keyword){
 //find all url by keywords

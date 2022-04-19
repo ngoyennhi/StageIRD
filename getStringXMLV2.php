@@ -481,7 +481,7 @@ if (is_array($files)) {
                                             $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node);
                                             }
                                     } 
-                    $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
+                                $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
                     $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
                     $root->appendChild($gmdMD_Distribution_node);
                     
@@ -491,14 +491,7 @@ if (is_array($files)) {
             ********************************/
             $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
             addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
-          ///// dang lam toi day, moi duong like se tro thanh 1 linkage URL cua keyword
-            foreach (get_url_list('sentinel-2') as $value) {
-                addLevel1($dom,$gmdPlatform_node[3],'gmd:linkage','gmd:URL',$value);
-            }
-// ex:           
-// <gmd:linkage>
-// <gmd:URL>http://gcmd.nasa.gov/Resources/valids/</gmd:URL>
-// </gmd:linkage>
+          
          
             /*********************************  
                      Bloc: gmd:referenceSystemInfo
@@ -517,6 +510,44 @@ if (is_array($files)) {
                     // OSO <HORIZONTAL_CS_CODE> 
                     addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
             
+            /*********************************  
+                     Bloc: gmd:descriptiveKeywords
+                    OSO: 
+            ********************************/
+                $keyword_Platform ='sentinel2';
+                $keyword_Theme = 'landCover';
+             
+                $gmdDescriptiveKeywords_node = addLevel1($dom,$root,'gmd:descriptiveKeywords','gmd:MD_Keywords','');
+    
+                $keyword_Platform_node = addLevel1($dom,$gmdDescriptiveKeywords_node[0],'gmd:keyword','gmx:Anchor',$keyword_Platform);
+                $keyword_Theme_node = addLevel1($dom,$gmdDescriptiveKeywords_node[0],'gmd:keyword','gmx:Anchor', $keyword_Theme);
+                addAttr($keyword_Platform_node[1],"xlink:href",get_url($keyword_Platform));
+                addAttr($keyword_Theme_node[1],"xlink:href",get_url($keyword_Theme));
+
+                $root->appendChild($gmdDescriptiveKeywords_node[0]);
+                // foreach (get_url_list($keyword_Platform) as $value) {
+                //     addLevel1($dom,$gmdDescriptiveKeywords_node[3],'gmd:keyword','gmx:Anchor',$value);
+                // }
+
+                //     <gmd:MD_Keywords>
+                //         <gmd:keyword>
+                //             <gmx:Anchor xlink:href='https://www.eionet.europa.eu/gemet/en/inspire-theme/bu'>Buildings</gmx:Anchor>
+                //         </gmd:keyword>
+                //         <gmd:keyword>
+                //             <gmx:Anchor xlink:href='https://www.eionet.europa.eu/gemet/en/inspire-theme/lc'>Land Cover</gmx:Anchor>
+                //         </gmd:keyword>
+                //     </gmd:MD_Keywords>
+                // </gmd:descriptiveKeywords>
+
+                    // /**
+                    //  * function add Attribute for a NODE
+                    //  */
+                    // function addAttr($tag,$attrName,$attrString){
+                    //     $attr = new DOMAttr ($attrName,$attrString);
+                    //     $tag->setAttributeNode($attr);
+                    // };  
+
+
                     //----ROOT--------ROOT--------ROOT--------ROOT----
                     //appendChild $root
                     $dom->appendChild($root);
@@ -524,5 +555,11 @@ if (is_array($files)) {
                     $dom->save("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/".$xml_file_name);
                     echo "$xml_file_name has been successfully created and saved";
                 };
+
+
+
+
+           
+
     }// end foreach
 }// end if
