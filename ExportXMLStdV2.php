@@ -1,7 +1,6 @@
 <?php ini_set('display_errors', 'on'); ?>
         <?php
         include 'getStringXML.php';
-
         $dom = new DOMDocument();
         $dom->encoding = 'utf-8';
         $dom->xmlVersion = '1.0';
@@ -223,7 +222,7 @@
     //OSO: <PRODUCT_LEVEL>
     //----------------------------------------------------/
     $gmdSeries_Node = addLevel0($dom,$gmdCitationNodeArr[1],'gmd:series','');
-addLevel2($dom,$gmdSeries_Node,'gmd:CI_Series','gmd:name','gco:CharacterString',$o_PRODUCT_LEVEL);
+    addLevel2($dom,$gmdSeries_Node,'gmd:CI_Series','gmd:name','gco:CharacterString',$o_PRODUCT_LEVEL);
 //----------------------------------------------------/
 //OSO: <AUTHORITY>
 //----------------------------------------------------/

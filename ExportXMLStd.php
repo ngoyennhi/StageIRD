@@ -1,17 +1,75 @@
 <?php ini_set('display_errors', 'on'); ?>
         <?php
         include 'getStringXML.php';
+
         $dom = new DOMDocument();
         $dom->encoding = 'utf-8';
         $dom->xmlVersion = '1.0';
         $dom->formatOutput = true;
         $xml_file_name =
-            'OSO_20200101_VECTOR_departement_01_V1-0_MTD_ALL_stdISO.xml';
+            'XML_ISO.xml';
+
+    /*********************************  
+                 Bloc: Functions
+********************************/
+                /**
+                 * function add a NODE level 0
+                 */
+                function addLevel0($dom,$node,$tag0,$content){
+                    $c0 = $dom->createElement($tag0,$content);
+                    $node->appendChild($c0);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 1
+                 */
+                function addLevel1($dom,$node,$tag0,$tag1,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $c1 = $dom->createElement($tag1,$content);
+                    $l1->appendChild($c1);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 2
+                 */
+                function addLevel2($dom,$node,$tag0,$tag1,$tag2,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $l2 = $dom->createElement($tag1);
+                    $c1 = $dom->createElement($tag2,$content);
+                    $l2->appendChild($c1);
+                    $l1->appendChild($l2);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add a NODE level 3
+                 */
+                function addLevel3($dom,$node,$tag0,$tag1,$tag2,$tag3,$content){
+                    $l1 = $dom->createElement($tag0);
+                    $l2 = $dom->createElement($tag1);
+                    $l3 = $dom->createElement($tag2);
+                    $c2 = $dom->createElement($tag3,$content);
+                    $l3->appendChild($c2);
+                    $l2->appendChild($l3);
+                    $l1->appendChild($l2);
+                    $node->appendChild($l1);
+                    return  $node;
+                };
+                /**
+                 * function add Attribute for a NODE
+                 */
+                function addAttr($tag,$attrName,$attrString){
+                    $attr = new DOMAttr ($attrName,$attrString);
+                    $tag->setAttributeNode($attr);
+                };   
+                    
         // // If the $xml_file_name file in existing directory already exist, delete it by unlink()
         // if (!unlink($xml_file_name)) {
         //     echo "$file_pointer cannot be deleted due to an error";
         // } else {
-
+            
+    
     /*********************************  
           gmi:MI_Metadata
           OSO - <Metadata_Identification>
@@ -338,9 +396,7 @@
                                     $attr_creation_gmdCI_DateTypeCodeValue
                                 );
 
-            
-            
-            
+   
                         // gmd:MD_DataIdentification ->gmd:citation -> gmd:CI_Citation -> gmd:identifier
                     
                         $gmdCI_Citation_gmdIdentifier_node = $dom->createElement(

@@ -1,12 +1,17 @@
 <?php ini_set('display_errors', 'on'); 
+$arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY);
+// Traitement du formulaire
+// if boutton OK appliqué, on commence le traitement
+if (isset($arrSaisi['ok'])) {
+include('lib_thesaurus.php');
 include('thesaurus.php'); // for 2 function :)) lines 494 -- 501 
 //libxml_disable_entity_loader(false); 
 function before ($char, $string){
     return substr($string, 0, strpos($string, $char,));
 };
-/*********************************  
+        /*********************************  
                      Bloc: Functions
-    ********************************/
+         ********************************/
                     /**
                      * function add a NODE level 0
                      */
@@ -455,6 +460,15 @@ if (is_array($files)) {
                 // //gmd:descriptiveKeywords  gmd:MD_Keywords
                 // //----------------------------------------------------/  
                 // $gmdDescriptiveKeywords_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords',''); 
+                $gmdDescriptiveKeywords_node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords','');
+
+                $keyword_Platform ='Sentinel - 2';
+                $keyword_Theme = 'Land cover';
+                $keyword_Theme_2 = 'Land cover classification';
+
+                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme_2,$lib_thesaurus);
+                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme,$lib_thesaurus);
+                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Platform,$lib_thesaurus);
             
             $root->appendChild($gmdMD_DataIdentification_node);
                 /*********************************  
@@ -509,21 +523,6 @@ if (is_array($files)) {
                         addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_NAME');
                     // OSO <HORIZONTAL_CS_CODE> 
                     addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
-            
-            /*********************************  
-                     Bloc: gmd:descriptiveKeywords
-                    OSO: 
-            ********************************/
-                $keyword_Platform ='Sentinel - 2';
-                $keyword_Theme = 'Land cover';
-             
-                $gmdDescriptiveKeywords_node = addLevel1($dom,$root,'gmd:descriptiveKeywords','gmd:MD_Keywords','');
-
-                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Platform);
-                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme);
-
-                $root->appendChild($gmdDescriptiveKeywords_node[0]);
-       
                     //----ROOT--------ROOT--------ROOT--------ROOT----
                     //appendChild $root
                     $dom->appendChild($root);
@@ -539,3 +538,4 @@ if (is_array($files)) {
 
     }// end foreach
 }// end if
+}
