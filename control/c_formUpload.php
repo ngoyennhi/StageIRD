@@ -35,9 +35,9 @@ if (isset($arrSaisi['ok'])) {
                     // Copier le fichier temporaire (tester le résultat)
                     if (copy($fichier_temporaire, $destination)) {
                         // Copie OK => mettre un message de confrmation.
-                        $message = 'Transfert terminé - Fichier = '.$nom ;
-                        $message .= 'Taille = '.$taille.'octets - ';
-                        $message .= 'Type MIME = '.$type_mime;
+                        $message = 'Transfert terminé - Fichier = '.$nom.'<br>'; 
+                        $message .= 'Taille = '.$taille.'octets - '.'<br>';
+                        $message .= 'Type MIME = '.$type_mime.'<br>';
                     } 
                     break;
                 case UPLOAD_ERR_NO_FILE:
@@ -81,7 +81,10 @@ if (isset($arrSaisi['ok'])) {
                     break;  
         };
         echo $message;
-//traitement XML vers XMl ISO19115
-include("getStringXMLV2.php");
    } 
 }
+?>
+<!--Rediriger sur la page précédente -->
+<!-- <meta http-equiv="refresh" content="1; url=<?php echo $_SERVER["HTTP_REFERER"]  ; ?>" /> -->
+<!-- Rediriger sur la page précédente -->
+<meta http-equiv="refresh" content="1; url=../vue/formDownload.php" />

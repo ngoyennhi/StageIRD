@@ -91,12 +91,34 @@ function before ($char, $string){
                         $attr = new DOMAttr ($attrName,$attrString);
                         $tag->setAttributeNode($attr);
                     };   
+                    /**
+                     * function add Keyword for a NODE
+                     */
+                    function addKeyword($dom,$node,$keyword,$lib_thesaurus){
+                        // $lib_thesaurus = array(
+                        // array("Land cover" => "https://gcmd.earthdata.nasa.gov/kms/concept/e5815f58-8232-4c7f-b50d-ea71d73891a9"),
+                        // array("Sentinel - 2" =>"https://gcmd.earthdata.nasa.gov/kms/concept/2ce20983-98b2-40b9-bb0e-a08074fb93b3"),
+                        // array("Land cover classification" => "https://gcmd.earthdata.nasa.gov/kms/concept/75c312bc-79f9-4d74-a7c0-3c67c019196c"), 
+                        // );
+                        $keyword_node = addLevel1($dom,$node[0],'gmd:keyword','gmx:Anchor',$keyword);
+                        foreach ($lib_thesaurus as $aValue) {
+                            foreach ($aValue as $key => $value) {
+                                if ($key == $keyword) {
+                                      addAttr($keyword_node[1],"xlink:href",$value);
+                                 }
+                            }
+                        }
+                    }
     
 ?>
 <?php
 $files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/data/*xml");
 
-if (is_array($files)) {
+if(empty($files)){
+    echo("Your folder is empty.");
+}
+else {
+ if (is_array($files)) {
     foreach($files as $filename) {
         $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
        //var_dump($o_XML_filename);
@@ -531,11 +553,12 @@ if (is_array($files)) {
                     echo "$xml_file_name has been successfully created and saved";
                 };
 
-
-
-
-           
-
     }// end foreach
-}// end if
+}// end if 
+
+}// end if empty
+
 }
+?>
+<!--Rediriger sur la page précédente -->
+<meta http-equiv="refresh" content="1; url=../vue/fini.php" />
