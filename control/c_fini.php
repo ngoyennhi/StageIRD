@@ -10,23 +10,57 @@
  </style>
  </head>
  <body>
- <table>
- <tr><th>Files XML ISO 19115</th></tr>
+ <!-- <table>
+ <tr><th>Files transformed into XML ISO 19115</th></tr>
  <?php
- include 'control/c_formDownload.php';
- $files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/*xml");
- // Un petit bout de code PHP pour générer les lignes du
- // tableau présentant la liste des documents.
- // Parcourir la liste des documents et utiliser le nom
- // pour l’afchage et le numéro dans l’URL.
- foreach ( $files as $numero => $document) {
-     echo sprintf(
-         "<tr><td>%s</td></tr>\n",
-         "<a href='../control/c_formDownload.php?no=$numero'>$document</a>"
-     );
- }
- ?>
- </table>
+    include 'control/c_formDownload.php';
+    // Array containing file names
+    $files = glob("../results/*xml");
+    // Loop through array to create file XML
+        foreach($files as $file){
+            echo sprintf(
+            "<tr><td>%s</td></tr>\n",
+            '<p><a href="../results/'.$file.'" alt="'.pathinfo($file, PATHINFO_FILENAME).'">'.$file.'</a></p>'
+            );
+    }
+ ?> 
+ </table> -->
+ <h2>Download XMl files ISO 19115 standard </h2>
+ <?php
+    include 'control/c_formDownload.php';
+    // Array containing file names
+    $files = glob("../results/*xml");
+    // Loop through array to create file XML
+        foreach($files as $file){
+            // remove "../results/" form file name
+            $file = substr($file,11);
+            echo sprintf(
+            "<tr><td>%s</td></tr>\n",
+            '<p><a href="c_fini.php?file='.$file.'" alt="'.pathinfo($file, PATHINFO_FILENAME).'">'.$file.'</a></p>'
+            );
+        if(!empty($_GET['file'])){
+                $filename =basename($_GET['file']);
+  
+                $filepath = '../results/'.$filename;
+    
+                if(!empty($filename) && file_exists($filepath)){
+                    //Define Headers
+                    header("Cache-Control: public");
+                    header("Content-Description: File Transer");
+                    header("Content-Disposition: attachment; filename=$filename");
+                    header("Content-Type: application/zip");
+                    header("Content-Transfer-Emcoding: binary");
+                
+                    readfile($filepath);
+                    exit;
+                }
+                else{
+                 echo("File download failed");
+                }
+                }
+    }
+ ?> 
  </body>
 </html>
+
 
