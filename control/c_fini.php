@@ -55,11 +55,14 @@
                     exit;
                 }
                 else{
-                 echo("File download failed");
+                http_response_code(404);
+                 die();
                 }
                 }
+                
     }
  ?> 
+ <a href="../index.php">Back to Home Page</a>
  </body>
 </html>
 
