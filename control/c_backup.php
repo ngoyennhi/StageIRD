@@ -1,5 +1,7 @@
 <?php 
-
+    include ('control/c_formDownload.php');
+    // Array containing file names
+    $files = glob("../results/*xml");
 $foldertobackup = 'ZipISO1915';
 
 $backup = '../results/'.$foldertobackup;

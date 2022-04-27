@@ -4,7 +4,6 @@ $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY
 // if boutton OK appliqué, on commence le traitement
 if (isset($arrSaisi['ok'])) {
 include('lib_thesaurus.php');
-//include('thesaurus.php'); // for 2 function :)) lines 494 -- 501 
 //libxml_disable_entity_loader(false); 
 function before ($char, $string){
     return substr($string, 0, strpos($string, $char,));
@@ -550,7 +549,7 @@ else {
                     $dom->appendChild($root);
                     // save data
                     $dom->save("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/".$xml_file_name);
-                    echo "$xml_file_name has been successfully created and saved";
+                    echo "$xml_file_name has been successfully created and saved"."<br>";
                 };
 
     }// end foreach
