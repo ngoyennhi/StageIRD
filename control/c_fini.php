@@ -36,8 +36,11 @@
     //             }     
     // }
 
+
+    
+// ZIP file
      function createZipAndDownload($files, $filesPath, $zipFileName)
-     {
+        {
          // Create instance of ZipArchive. and open the zip folder.
          $zip = new ZipArchive();
          if ($zip->open($zipFileName, ZipArchive::CREATE) !== TRUE) {
@@ -57,7 +60,7 @@
          header("Expires: 0");
          readfile("$zipFileName");
          exit;
-     };
+        };
 
  // Files which need to be added into zip
     $files = glob("../results/*xml");
@@ -67,47 +70,6 @@
  $zipName = 'XML_ISO_files.zip';
 
  createZipAndDownload($files, $filesPath, $zipName);
-
-
-
-
-    // // zip file
-    // // Create a zip file by function touch()
-    // $zip_file = "../file/all-xml.zip";
-    // touch($zip_file);
-    // // open zip file and add all XML ISO files 
-    //  $zip = new ZipArchive;
-    //     $this_zip =$zip->open($zip_file);
-    //     if ($this_zip){
-    //        $folder =opendir('./../results');
-    //        if($folder){
-    //            while(false !== ($xmlISO = readdir($folder))){
-    //                    $file_with_path ="../results/".$xmlISO;
-    //                    $zip->addFile($file_with_path,$xmlISO);
-    //             }
-    //             closedir($folder);
-    //        }
-    //         $zip->close(); 
-    //     }
-
-    // // Download this created zip file
-    // if(file_exists($zip_file)){
-    //     //For force download, you have to set the header correctly. When you are setting the header for download the Zip file that time <coce>Content-type and Content-Disposition correctly. In Content-Disposition, add the attachment, it will suggest the browser to download the file instead of displaying it directly. 
-    //     header('Content-type: application/zip');
-    //     header('Content-Disposition: attachment; filename="'.basename($zip_file).'"');
-    //     header("Content-length: " . filesize($zip_file));
-    //     header("Pragma: no-cache");
-	//     header("Expires: 0");
-    //     ob_clean(); // clear the output buffer to avoid the problem with auto unzipping
-    //     flush();// clear the output buffer to avoid the problem with auto unzipping
-    //     readfile($zip_file); //auto download
-        
-    //     // delete this zip-file after download
-    //     unlink($zip_file);
-    //     exit("Done");
-    // }
-
-
 
  ?>  
 
