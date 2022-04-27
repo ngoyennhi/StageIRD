@@ -1,0 +1,50 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	height: 100vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #05e8ba;
+	background-image: linear-gradient(315deg, #05e8ba 0%, #087ee1 74%);
+}
+h1 {
+    align-items: center;
+	justify-content: center;
+}
+.noselect {
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+          -webkit-tap-highlight-color: transparent;
+  }
+  
+  .nbutton {
+      cursor: pointer;
+      font-size: 1.5vw;
+      font-weight: bold;
+      color: rgb(106, 15, 210);
+      background: white;
+      border: 2px solid black;
+      box-shadow: 5px 5px 0 rgb(151, 242, 14),
+          -5px -5px 0 rgb(37, 210, 170),
+          -5px 5px 0 rgb(173, 239, 242),
+          5px -5px 0 rgb(36, 121, 68);
+      transition: 500ms ease-in-out;
+  }
+  
+  .nbutton:hover {
+      box-shadow: 20px 5px 0 rgb(36, 33, 222), -20px -5px 0 rgb(114, 93, 177);
+  }
+  
+  .nbutton:focus {
+      outline: none;
+  }

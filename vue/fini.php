@@ -11,14 +11,14 @@
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-wp-preserve="%3Cscript%20src%3D%22js%2Fbootstrap.js%22%3E%3C%2Fscript%3E" data-mce-resize="false" data-mce-placeholder="1" class="mce-object" width="20" height="20" alt="<script>" title="<script>" />
 </head>
 <body>
-    <div class="container">
-            <div class="row">
-                <form action='../control/c_fini.php' method='post' enctype = 'multipart/form-data'>
+    <div class="container-fluid h-100">
+            <div class="row-fluid h-50">
+                <form action='../control/c_fini.php' method='post' enctype = 'multipart/form-data' >
                     <input class="btn btn-primary mb-3" type ='submit' name='saisie[ok]' value = 'Download by select' />
                 </form>
             </div>
-            <div class="row">
-                <form action='../control/c_backup.php' method='post' enctype = 'multipart/form-data'>
+            <div class="row-fluid h-50">
+                <form action='../control/c_backup.php' method='post' enctype = 'multipart/form-data' >
                     <input class="btn btn-info mb-3" type ='submit' name='saisie[ok]' value = 'Download Zip file' />
                     <h1>Thanks for using our service. </h1>
                     <a href="../index.php">Back to Home Page</a>

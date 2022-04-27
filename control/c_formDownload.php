@@ -561,4 +561,4 @@ else {
 }
 ?>
 <!--Rediriger sur la page précédente -->
-<meta http-equiv="refresh" content="1; url=../vue/fini.php" />
+<meta http-equiv="refresh" content="1; url=../index.php?loc=fini" />
