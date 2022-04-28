@@ -3,14 +3,15 @@ $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY
 // Traitement du formulaire
 // if boutton OK appliqué, on commence le traitement
 if (isset($arrSaisi['ok'])) {
-include('lib_thesaurus.php');
-//libxml_disable_entity_loader(false); 
-function before ($char, $string){
-    return substr($string, 0, strpos($string, $char,));
-};
+    include('lib_thesaurus.php');
+    //libxml_disable_entity_loader(false); 
+
         /*********************************  
                      Bloc: Functions
          ********************************/
+                    function before ($char, $string){
+                         return substr($string, 0, strpos($string, $char,));
+                        };
                     /**
                      * function add a NODE level 0
                      */
@@ -111,19 +112,21 @@ function before ($char, $string){
     
 ?>
 <?php
-$files = glob("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/data/*xml");
+$files = glob("../data/*xml");
 
 if(empty($files)){
     echo("Your folder is empty.");
+    echo("<meta http-equiv='refresh' content='1; url=../index.php?loc=home' />");
 }
 else {
  if (is_array($files)) {
     foreach($files as $filename) {
-        $o_XML_filename = trim($filename,'/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/.');
+        var_dump($filename);
+        $o_XML_filename = trim($filename,'data/.');
        //var_dump($o_XML_filename);
         $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
         //var_dump($xml_file_name);
-        $path = '/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/'.$xml_file_name;
+        $path = '../results/'.$xml_file_name;
         if (file_exists($path)) {
             unlink($path);
         } 
@@ -548,7 +551,7 @@ else {
                     //appendChild $root
                     $dom->appendChild($root);
                     // save data
-                    $dom->save("/Applications/MAMP/htdocs/StageIRD_XML_PHP/StageIRD/results/".$xml_file_name);
+                    $dom->save("../results/".$xml_file_name);
                     echo "$xml_file_name has been successfully created and saved"."<br>";
                 };
 
@@ -560,4 +563,4 @@ else {
 }
 ?>
 <!--Rediriger sur la page précédente -->
-<meta http-equiv="refresh" content="1; url=../index.php?loc=fini" />
+ <meta http-equiv="refresh" content="1; url=../index.php?loc=fini" /> 

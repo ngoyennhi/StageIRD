@@ -59,6 +59,11 @@
          header("Pragma: no-cache");
          header("Expires: 0");
          readfile("$zipFileName");
+         // Delete all XMl files in folder data/results/file and XML_ISO_files.zip  before exit
+         array_map('unlink', glob('../results/*.xml'));
+         array_map('unlink', glob('../data/*.xml'));
+         array_map('unlink', glob('../file/*.zip'));
+         array_map('unlink', glob('../control/XML_ISO_files.zip'));
          exit;
         };
 
@@ -70,7 +75,6 @@
  $zipName = 'XML_ISO_files.zip';
 
  createZipAndDownload($files, $filesPath, $zipName);
-
  ?>  
 
 

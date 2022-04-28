@@ -1,5 +1,8 @@
 <!-- recuperer les infos saisies sur la formulaire Upload -->
 <?php
+// Delete all XMl files in folder data before import 
+array_map('unlink', glob('../data/*.xml'));
+
 $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY);
 //var_dump($arrSaisi);
 // Inialisation de la variable de message

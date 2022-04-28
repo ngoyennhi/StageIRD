@@ -1,4 +1,4 @@
-
+<?php include('control/c_home.php') ?>
 <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center " style="margin-top: 30vh">
                 <div class="row shadow-lg p-5 mb-5 bg-body rounded d-flex justify-content-center align-items-center ">
