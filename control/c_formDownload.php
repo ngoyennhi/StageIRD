@@ -121,9 +121,7 @@ if(empty($files)){
 else {
  if (is_array($files)) {
     foreach($files as $filename) {
-        var_dump($filename);
         $o_XML_filename = trim($filename,'data/.');
-       //var_dump($o_XML_filename);
         $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
         //var_dump($xml_file_name);
         $path = '../results/'.$xml_file_name;
@@ -563,4 +561,4 @@ else {
 }
 ?>
 <!--Rediriger sur la page précédente -->
- <meta http-equiv="refresh" content="1; url=../index.php?loc=fini" /> 
+<meta http-equiv="refresh" content="1; url=../index.php?loc=fini" />

@@ -1,5 +1,5 @@
 
-    <!-- Ce code ne fonctionnera que pour les navigateurs Chrome et Mozilla-->
+<!-- Ce code ne fonctionnera que pour les navigateurs Chrome et Mozilla-->
     <div class="container">
         <div class="row shadow-lg p-5 mb-5 bg-body rounded d-flex justify-content-center align-items-center">
             <form action='control/c_formUpload.php' method='post' enctype = 'multipart/form-data' class="d-block justify-content-center align-items-center">  

@@ -34,7 +34,6 @@ if (isset($arrSaisi['ok'])) {
                     // Fichier bien reçu
                     // Déterminer sa destination finale.
                     $destination = '../data/'.$nom;
-                    //$destination = '../documents/'.$nom;
                     // Copier le fichier temporaire (tester le résultat)
                     if (copy($fichier_temporaire, $destination)) {
                         // Copie OK => mettre un message de confrmation.
@@ -45,7 +44,7 @@ if (isset($arrSaisi['ok'])) {
                     break;
                 case UPLOAD_ERR_NO_FILE:
                     // Pas de fchier saisi.
-                    $message = 'Pas de fchier saisi.';
+                    $message = 'Pas de fichier saisi.';
                     break;
                 case UPLOAD_ERR_INI_SIZE:
                     // Taille fchier > upload_max_flesize.

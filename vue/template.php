@@ -15,6 +15,7 @@ switch ($loc) {
     case 'listXML':
         $path = 'vue/listXML.php';
     break;
+    
     default:
         $path = 'vue/home.php';
         break;
