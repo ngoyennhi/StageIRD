@@ -53,11 +53,35 @@
          }
          $zip->close();
     
-         // Download the created zip file
-         header("Content-type: application/zip");
-         header("Content-Disposition: attachment; filename = $zipFileName");
-         header("Pragma: no-cache");
-         header("Expires: 0");
+        //test 1
+        //  // Download the created zip file
+        //  $size =filesize($zipFileName);
+        //  header("Content-type: application/zip");
+        //  header("Content-Disposition: attachment; filename = $zipFileName");
+        //  header('Content-Length:'.$size);
+         
+        //  header("Pragma: no-cache");
+        //  header("Expires: 0");
+        // //-------------------
+        //  //Clean before! In order to avoid 500 error
+        //  ob_end_clean();
+        //  flush();
+
+
+        //test 2 
+        header('Content-Description: File Transfer');
+        header('Content-Type:'.mime_content_type($zipFileName));
+        header('Content-Disposition: inline; filename="'.basename($zipFileName).'"');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($zipFileName));
+        ob_clean();
+        flush();
+
+         //-------------------
+         //download file 
          readfile("$zipFileName");
          // Delete all XMl files in folder data/results/file and XML_ISO_files.zip  before exit
          array_map('unlink', glob('../results/*.xml'));
