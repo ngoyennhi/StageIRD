@@ -9,6 +9,12 @@ switch ($loc) {
     case 'formDownload':
         $path = 'vue/formDownload.php';
         break;
+    case 'formUpload_neige':
+            $path = 'vue/formUpload_neige.php';
+            break;
+    case 'formDownload_neige':
+            $path = 'vue/formDownload_neige.php';
+            break;
     case 'fini':
         $path = 'vue/fini.php';
         break;
