@@ -5,7 +5,7 @@ $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY
 if (isset($arrSaisi['ok'])) {
     include('lib_thesaurus.php');
     //libxml_disable_entity_loader(false); 
-    include('c_fonction.php');   
+    include('c_fonction.php');   }
 ?>
 <?php
 $files = glob("../data/*xml");
@@ -67,12 +67,6 @@ else {
             $o_GEOGRAPHICAL_ZONE_att_type = $xml->Dataset_Identification->GEOGRAPHICAL_ZONE
                 ->attributes()
                 ->type->__toString();
-            
-            $o_TITLE = $xml->Dataset_Identification->TITLE->__toString();
-            $o_DESCRIPTION =
-                '<![CDATA[' .
-                $xml->Dataset_Identification->DESCRIPTION->__toString() .
-                ']]>'; //"<![CDATA[".$o_DESCRIPTION."]]>"
 
             /*
             Bloc: <Product_Characteristics>
@@ -106,33 +100,79 @@ else {
             /*
             Bloc: <Product_Organisation>
             */
-            $tagDistributed_Product = array();
-            $attDistributed_Product = array();
-            $tagDetailDistributed_Product = array();
-            $contentDetailDistributed_Product = array();
-            $typeProduit = array();
-            foreach ($xml->xpath('//Product_Organisation') as $distributed_Product) {
-                $distributed_Product->getName();
-                //echo " Block : ", $distributed_Product->getName(), '<br>',PHP_EOL;
+            //<QUICKLOOK>
+            $o_Muscate_Product_QUICKLOOK = $xml->Product_Organisation->Muscate_Product->QUICKLOOK->__toString();
+            $o_Muscate_Product_QUICKLOOK_att_bands_id = $xml->Product_Organisation->Muscate_Product->QUICKLOOK->attributes()
+            ->bands_id->__toString();
+            
+            //<Image_List>
+            $tagDetailDistributed_Product_image  = array();
+            $contentDetailDistributed_Product_image  = array();
+            $typeProduit_image  = array();
+            foreach ($xml->xpath('//Image_List') as $image_List) {
+                $image_List->getName();
+                //echo " Block : ", $image_List->getName(), '<br>',PHP_EOL;
                 // count number of classe to make sure we have the classes or not
-               if($distributed_Product->count()>0){
-                   foreach ($distributed_Product->children() as $produit){
-                        $tagDistributed_Product[]= $produit->getName();
-                        //echo $produit->getName(), '<br>',PHP_EOL;   
-
-                        foreach ($produit->children() as $detailDistributed_Product){
-                        $tagDetailDistributed_Product[]= $detailDistributed_Product->getName();
-                        $contentDetailDistributed_Product[] = $detailDistributed_Product->__toString();
-                        //echo $detailDistributed_Product->getName(), " : ",$detailDistributed_Product->__toString(),'<br>',PHP_EOL;   
+               if($image_List->count()>0){
+                   foreach ($image_List->children() as $image){
+                        $tagDetailDistributed_Product_image []= $image->Image_File_List->IMAGE_FILE->getName();
+                        $contentDetailDistributed_Product_image [] = $image->Image_File_List->IMAGE_FILE->__toString();
+                        //echo $image->Image_File_List->IMAGE_FILE->getName(), " : ",$image->Image_File_List->IMAGE_FILE->__toString(),'<br>',PHP_EOL;   
                         }   
-                    }
                 }
             }
-            // get type of produits
-            foreach ($contentDetailDistributed_Product as $typeProduits) {
+            // get type of produits image
+            foreach ($contentDetailDistributed_Product_image  as $typeProduits_image ) {
             // trim()
-            $typeProduit = strstr(trim($typeProduits,'./.'),'.'); 
-            //echo $typeProduit,'<br>',PHP_EOL;   
+            $typeProduit_image  = strstr(trim($typeProduits_image ,'./.'),'.'); 
+            //echo $typeProduit_image,'<br>',PHP_EOL;   
+            }
+            
+            //<Mask_List>
+            $tagDetailDistributed_Product_mask = array();
+            $contentDetailDistributed_Product_mask = array();
+
+            $typeProduit_mask = array();
+            foreach ($xml->xpath('//Mask_List') as $mask_List) {
+                $mask_List->getName();
+                //echo " Block : ", $mask_List->getName(), '<br>',PHP_EOL;
+                // count number of classe to make sure we have the classes or not
+               if($mask_List->count()>0){
+                   foreach ($mask_List->children() as $mask){
+                        $tagDetailDistributed_Product_mask[]= $mask->Mask_File_List->MASK_FILE->getName();
+                        $contentDetailDistributed_Product_mask[] = $mask->Mask_File_List->MASK_FILE->__toString();
+                        //echo $mask->Mask_File_List->MASK_FILE->getName(), " : ",$mask->mask_File_List->MASK_FILE->__toString(),'<br>',PHP_EOL;   
+                        }   
+                }
+            }
+            // get type of produit mask
+            foreach ($contentDetailDistributed_Product_mask as $typeProduits_mask) {
+            // trim()
+            $typeProduit_mask = strstr(trim($typeProduits_mask,'./.'),'.'); 
+            //echo $typeProduit_mask,'<br>',PHP_EOL;   
+            }
+
+            //<Data_List>
+            $tagDetailDistributed_Product_data = array();
+            $contentDetailDistributed_Product_data = array();
+            $typeProduit_data = array();
+            foreach ($xml->xpath('//Data_List') as $Data_List) {
+                $Data_List->getName();
+                //echo " Block : ", $Data_List->getName(), '<br>',PHP_EOL;
+                // count number of classe to make sure we have the classes or not
+               if($Data_List->count()>0){
+                   foreach ($Data_List->children() as $mask){
+                        $tagDetailDistributed_Product_data[]= $mask->Data_File_List->DATA_FILE->getName();
+                        $contentDetailDistributed_Product_data[] = $mask->Data_File_List->DATA_FILE->__toString();
+                        //echo $mask->Data_File_List->DATA_FILE->getName(), " : ",$mask->Data_File_List->DATA_FILE->__toString(),'<br>',PHP_EOL;   
+                        }   
+                }
+            }
+            // get type of produit mask
+            foreach ($contentDetailDistributed_Product_data as $typeProduits_data) {
+            // trim()
+            $typeProduit_data = strstr(trim($typeProduits_data,'./.'),'.'); 
+            //echo $typeProduit_data,'<br>',PHP_EOL;   
             }
 
             /*
@@ -145,74 +185,42 @@ else {
             $o_HORIZONTAL_CS_TYPE = $xml->Geoposition_Informations->Coordinate_Reference_System->Horizontal_Coordinate_System->HORIZONTAL_CS_TYPE->__toString();
             $o_HORIZONTAL_CS_NAME = $xml->Geoposition_Informations->Coordinate_Reference_System->Horizontal_Coordinate_System->HORIZONTAL_CS_NAME->__toString();
             $o_HORIZONTAL_CS_CODE = $xml->Geoposition_Informations->Coordinate_Reference_System->Horizontal_Coordinate_System->HORIZONTAL_CS_CODE->__toString();
+            
+        //<Raster_CS>
+        $o_RASTER_CS_TYPE = $xml->Geoposition_Informations->Raster_CS->RASTER_CS_TYPE->__toString();
+        $o_RASTER_CS_PIXEL_ORIGIN = $xml->Geoposition_Informations->Raster_CS->PIXEL_ORIGIN->__toString();
 
-            //<Raster_CS>
-            $o_RASTER_CS_TYPE = $xml->Geoposition_Informations->Raster_CS->RASTER_CS_TYPE->__toString();
-            $o_RASTER_CS_PIXEL_ORIGIN = $xml->Geoposition_Informations->Raster_CS->PIXEL_ORIGIN->__toString();
+        //<Metadata_CS>
+        $o_METADATA_CS_TYPE = $xml->Geoposition_Informations->Metadata_CS->METADATA_CS_TYPE->__toString();
+        $o_METADATA_CS_PIXEL_ORIGIN = $xml->Geoposition_Informations->Metadata_CS->PIXEL_ORIGIN->__toString();
 
-            //<Metadata_CS>
-            $o_METADATA_CS_TYPE = $xml->Geoposition_Informations->Metadata_CS->METADATA_CS_TYPE->__toString();
-            $o_METADATA_CS_PIXEL_ORIGIN = $xml->Geoposition_Informations->Metadata_CS->PIXEL_ORIGIN->__toString();
+       //<Geopositioning>
+       // <Geopositioning> -> <Global_Geopositioning>
+       $tagPointLists = array();
+       $attExtentPoints= array();
+       $tagPointListsDetail = array();
+       $contentPointListsDetail = array();
+       foreach ($xml->xpath('//Global_Geopositioning') as $extentPoints) {
+           $extentPoints->getName();
+           //echo " Extent : ", $extentPoints->getName() , '<br>',PHP_EOL;   
+           // count number of Point to make sure we have the Points or not
+          if($extentPoints->count()>0){
+              //Position of points 
+              foreach ($extentPoints->children() as $extentPoint){
+               $tagPointLists[]= $extentPoint->getName();
+               $attExtentPoints[]= $extentPoint->attributes()->name->__toString();
+              //echo $extentPoint->getName(), " : ",$extentPoint->attributes()->name->__toString(), '<br>',PHP_EOL;   
+                   //LON LAT X Y
+                   foreach ($extentPoint->children() as $extentPointDetail){
+                       $tagPointListsDetail[]= $extentPointDetail->getName();
+                       $contentPointListsDetail[] = $extentPointDetail->__toString();
+                       //echo $extentPointDetail->getName(), " : ",$extentPointDetail->__toString(),'<br>',PHP_EOL;   
+                   }   
+               }
+           }
+       }
 
-            //<Geopositioning>
-            // <Geopositioning> -> <Global_Geopositioning>
-            $tagPointLists = array();
-            $attExtentPoints= array();
-            $tagPointListsDetail = array();
-            $contentPointListsDetail = array();
-            foreach ($xml->xpath('//Global_Geopositioning') as $extentPoints) {
-                $extentPoints->getName();
-                //echo " Extent : ", $extentPoints->getName() , '<br>',PHP_EOL;   
-                // count number of Point to make sure we have the Points or not
-               if($extentPoints->count()>0){
-                   //Position of points 
-                   foreach ($extentPoints->children() as $extentPoint){
-                    $tagPointLists[]= $extentPoint->getName();
-                    $attExtentPoints[]= $extentPoint->attributes()->name->__toString();
-                   //echo $extentPoint->getName(), " : ",$extentPoint->attributes()->name->__toString(), '<br>',PHP_EOL;   
-                        //LON LAT X Y
-                        foreach ($extentPoint->children() as $extentPointDetail){
-                            $tagPointListsDetail[]= $extentPointDetail->getName();
-                            $contentPointListsDetail[] = $extentPointDetail->__toString();
-                            //echo $extentPointDetail->getName(), " : ",$extentPointDetail->__toString(),'<br>',PHP_EOL;   
-                        }   
-                    }
-                }
-            }
-
-            /*
-            Bloc:  <Statistic_Informations>
-            */
-            //Global_Statistic
-            $o_KAPPA = $xml->Statistic_Informations->Global_Statistic->KAPPA;
-  
-            $o_OA = $xml->Statistic_Informations->Global_Statistic->OA;
-   
-            //Statistic_List
-            //$o_Statistic_List = $xml->Statistic_Informations->Statistic_List;
-            $tagClasseLists = array();
-            $attStatisticClasses= array();
-            $tagClasseListsDetail = array();
-            $contentClasseListsDetail = array();
-            foreach ($xml->xpath('//Statistic_List') as $statisticClasses) {
-                $statisticClasses->getName();
-                //echo " Block : ", $statisticClasses->getName();
-                // count number of classe to make sure we have the classes or not
-               if($statisticClasses->count()>0){
-                   foreach ($statisticClasses->children() as $statisticClasse){
-                    $tagClasseLists[]= $statisticClasse->getName();
-                    $attStatisticClasses[]= $statisticClasse->attributes()->classe->__toString();
-                    //echo $statisticClasse->getName(), " : ", $statisticClasse->attributes()->classe->__toString(), '<br>',PHP_EOL;   
-                    
-                    foreach ($statisticClasse->children() as $statisticClasseDetail){
-                        $tagClasseListsDetail[]= $statisticClasseDetail->getName();
-                        $contentClasseListsDetail[] = $statisticClasseDetail->__toString();
-                        //echo $statisticClasseDetail->getName(), " : ",$statisticClasseDetail->__toString(),'<br>',PHP_EOL;   
-                    }   
-                   }
-                }
-            }
-        }
+        
         //-------------------------------------
         // and proceed with exporter XML ISO 
         //-------------------------------------
@@ -316,11 +324,11 @@ else {
             ********************************/
             $gmdMD_DataIdentification_node = $dom->createElement('gmd:MD_DataIdentification');
             //----------------------------------------------------/
-            //OSO: <TITLE>Produit carte d'occupation des sols</TITLE>
+            //OSO: (Produit carte de neige)
             //----------------------------------------------------/
             // $gmdCitationNodeArr[] is a array of a listNODE childs gmd:citation-0 gmd:CI_citation-1 gmd:title-2 gco:CharacterString-3 
             $gmdCitationNodeArr = addLevel3($dom,$gmdMD_DataIdentification_node,'gmd:citation','gmd:CI_citation',
-            'gmd:title','gco:CharacterString',$o_TITLE); 
+            'gmd:title','gco:CharacterString','Produit carte de neige'); 
             //----------------------------------------------------/
             //OSO: <ACQUISITION_DATE>
             //----------------------------------------------------/      
@@ -381,14 +389,12 @@ else {
                 $gmdDescriptiveKeywords_node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords','');
 
                 $keyword_Platform ='Sentinel - 2';
-                $keyword_Theme = 'Land cover';
-                $keyword_Theme_2 = 'Land cover classification';
+                $keyword_Theme = 'Snow and Ice';
 
-                addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme_2,$lib_thesaurus);
                 addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Theme,$lib_thesaurus);
                 addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Platform,$lib_thesaurus);
             
-            $root->appendChild($gmdMD_DataIdentification_node);
+                $root->appendChild($gmdMD_DataIdentification_node);
                 /*********************************  
                      Bloc: gmd:MD_Distribution
                     OSO: Distributed_Product
@@ -396,23 +402,64 @@ else {
                     $gmdMD_Distribution_node = $dom->createElement('gmd:MD_Distribution');
                                 $gmdMD_Distribution_citation_node = $dom->createElement('gmd:citation');
                                     $gmdMD_Distribution_citation_CI_Citation_node = $dom->createElement('gmd:CI_Citation');
-            
-                                    $data = array_combine($tagDetailDistributed_Product,$contentDetailDistributed_Product);
-                                
-                                    foreach ($data as $key => $produit) {
-                                        if(!is_null($produit))
+                                        
+                                    // List-image
+                                    $data_image = array_combine($tagDetailDistributed_Product_image,$contentDetailDistributed_Product_image);
+                                    foreach ($data_image as $key => $produit_image) {
+                                        if(!is_null($produit_image))
                                         {   
-                                            $gmdMD_Format_node = $dom->createElement('gmd:MD_Format'); 
+                                            $gmdMD_Format_node_image = $dom->createElement('gmd:MD_Format'); 
             
-                                            addLevel1($dom,$gmdMD_Format_node,'gmd:title','gco:CharacterString',$produit);
+                                            addLevel1($dom,$gmdMD_Format_node_image,'gmd:title','gco:CharacterString',$produit_image);
             
-                                            addLevel0($dom,$gmdMD_Format_node,'gmd:distributionFormat',strstr(trim($produit,'./.'),'.'));
+                                            addLevel0($dom,$gmdMD_Format_node_image,'gmd:distributionFormat',strstr(trim($produit_image,'./.'),'.'));
                                             
-                                            addLevel1($dom,$gmdMD_Format_node,'gmd:description','gco:CharacterString',$key);
+                                            addLevel1($dom,$gmdMD_Format_node_image,'gmd:description','gco:CharacterString',$key);
             
-                                            $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node);
+                                            $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node_image);
                                             }
                                     } 
+
+                                    // List-mask
+                                    $data_mask = array_combine($tagDetailDistributed_Product_mask,$contentDetailDistributed_Product_mask);
+                                    foreach ($data_mask as $key => $produit_mask) {
+                                        if(!is_null($produit_mask))
+                                        {   
+                                            $gmdMD_Format_node_mask = $dom->createElement('gmd:MD_Format'); 
+            
+                                            addLevel1($dom,$gmdMD_Format_node_mask,'gmd:title','gco:CharacterString',$produit_mask);
+            
+                                            addLevel0($dom,$gmdMD_Format_node_mask,'gmd:distributionFormat',strstr(trim($produit_mask,'./.'),'.'));
+                                            
+                                            addLevel1($dom,$gmdMD_Format_node_mask,'gmd:description','gco:CharacterString',$key);
+            
+                                            $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node_mask);
+                                            }
+                                    } 
+
+                                    // List-data
+                                    $data_data = array_combine($tagDetailDistributed_Product_data,$contentDetailDistributed_Product_data);
+                                    foreach ($data_data as $key => $produit_data) {
+                                        if(!is_null($produit_data))
+                                        {   
+                                            $gmdMD_Format_node_data = $dom->createElement('gmd:MD_Format'); 
+            
+                                            addLevel1($dom,$gmdMD_Format_node_data,'gmd:title','gco:CharacterString',$produit_data);
+            
+                                            addLevel0($dom,$gmdMD_Format_node_data,'gmd:distributionFormat',strstr(trim($produit_data,'./.'),'.'));
+                                            
+                                            addLevel1($dom,$gmdMD_Format_node_data,'gmd:description','gco:CharacterString',$key);
+            
+                                            $gmdMD_Distribution_citation_CI_Citation_node->appendChild($gmdMD_Format_node_data);
+                                            }
+                                    } 
+
+                                   
+                                    
+                        
+                                    
+                                    
+
                                 $gmdMD_Distribution_citation_node->appendChild($gmdMD_Distribution_citation_CI_Citation_node);
                     $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
                     $root->appendChild($gmdMD_Distribution_node);
@@ -441,7 +488,9 @@ else {
                         addLevel1($dom,$citationNODE[0],'gmd:description','gco:CharacterString','HORIZONTAL_CS_NAME');
                     // OSO <HORIZONTAL_CS_CODE> 
                     addLevel1($dom,$gmdReferenceSystemInfo_node[3],'gmd:code','gco:CharacterString',$o_HORIZONTAL_CS_CODE);
-                    //----ROOT--------ROOT--------ROOT--------ROOT----
+                    
+        
+        //----ROOT--------ROOT--------ROOT--------ROOT----
                     //appendChild $root
                     $dom->appendChild($root);
                     // save data

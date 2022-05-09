@@ -12,7 +12,7 @@
         <div class="row d-flex justify-content-center align-items-center " >
             <div class="col d-flex align-items-center justify-content-around" style="margin-top: 2vw">
                 <a href="index.php?loc=formUpload" class="nbutton noselect" >Upload products OSO</a>  
-                <a href="index.php?loc=formUpload" class="nbutton noselect" >Upload products SNOW</a>  
+                <a href="index.php?loc=formUpload_neige" class="nbutton noselect" >Upload products SNOW</a>  
             </div>
         </div>
 </div> 
