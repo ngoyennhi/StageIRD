@@ -9,6 +9,16 @@ if (!isset($_SESSION['loggedin'])) {
 ?>
 
 <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-6 d-flex justify-content-center align-items-center">
+                         
+                         <a href="index.php?loc=profile" class="logout" style="font-size: 6vh;color: cyan">Profile</a>
+                </div>
+                <div class="col-6 d-flex justify-content-center align-items-center">
+                         <a href="index.php?loc=logout" class="logout" style="font-size: 6vh;color: cyan">Logout</a>
+            
+                </div>
+        </div>
         <div class="row d-flex justify-content-center align-items-center " style="margin-top: 30vh">
                 <div class="row shadow-lg p-5 mb-5 bg-body rounded d-flex justify-content-center align-items-center ">
                         <h1>Welcome to Service Transformation</h1>
@@ -23,12 +33,7 @@ if (!isset($_SESSION['loggedin'])) {
                 <a href="index.php?loc=formUpload" class="nbutton noselect" >Upload products OSO</a>  
                 <a href="index.php?loc=formUpload_neige" class="nbutton noselect" >Upload products SNOW</a>  
         </div>
-        <div class="row d-flex justify-content-center align-items-center">
-                <div class="col-6 d-flex justify-content-center align-items-center">
-                         <a href="index.php?loc=logout" class="logout" style="font-size: 6vh">Logout</a>
-                </div>
-        </div>
-        </div>
+
 </div> 
 
 

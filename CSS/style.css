@@ -259,15 +259,15 @@ h1 {
     width: 100%;
     padding: 15px;
     margin-top: 20px;
-    background-color: #3274d6;
+    background-color: #641ff0;
     border: 0;
     cursor: pointer;
     font-weight: bold;
-    color: #ffffff;
+    color: #05dff8;
     transition: background-color 0.2s;
     font-size: 50px;
 }
 .logout:hover {
-    background-color: #2868c7;
+    background-color: #c7c228;
       transition: background-color 0.2s;
   }

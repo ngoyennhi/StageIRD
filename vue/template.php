@@ -37,9 +37,15 @@ switch ($loc) {
         $path = 'vue/listXML.php';
     break;
 
+    case 'profile':
+        $path = 'vue/profile.php';
+    break;
+
     case 'logout':
         $path = 'control/c_logout.php';
         break;
+
+
     
     default:
         $path = 'vue/home.php';
@@ -64,7 +70,7 @@ switch ($loc) {
     <?php include($path);?>
     		
     <div class="divBtnHome wrapper">
-        <a class="cta" href="../StageIRD/index.html">
+        <a class="cta" href="../StageIRD/index.php">
             <span>Home Page</span>
             <span>
             <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
