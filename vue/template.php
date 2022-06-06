@@ -36,6 +36,10 @@ switch ($loc) {
     case 'listXML':
         $path = 'vue/listXML.php';
     break;
+
+    case 'logout':
+        $path = 'control/c_logout.php';
+        break;
     
     default:
         $path = 'vue/home.php';

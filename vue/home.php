@@ -25,7 +25,7 @@ if (!isset($_SESSION['loggedin'])) {
         </div>
         <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-6 d-flex justify-content-center align-items-center">
-                         <a href="logout.php" class="logout" style="font-size: 6vh">Logout</a>
+                         <a href="index.php?loc=logout" class="logout" style="font-size: 6vh">Logout</a>
                 </div>
         </div>
         </div>
