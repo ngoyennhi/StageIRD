@@ -1,4 +1,12 @@
 <?php
+// We need to use sessions, so you should always start sessions using the below code.
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: http://localhost:8888/StageIRD_XML_PHP/StageIRD/index.html');
+	exit;
+}
+
 $loc = filter_input(INPUT_GET,'loc');
 $path = '';
 switch ($loc) {
@@ -48,6 +56,13 @@ switch ($loc) {
 </head>
 <body>
     <?php include($path);?>
+    <nav class="navtop">
+			<div>
+				<h1>XML2XMLISO</h1>
+				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+			</div>
+		</nav>
     <div class="divBtnHome wrapper">
         <a class="cta" href="../StageIRD/index.php">
             <span>Home Page</span>

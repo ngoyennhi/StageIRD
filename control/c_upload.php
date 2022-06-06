@@ -13,12 +13,14 @@ if (isset($arrSaisi['ok'])) {
     // Recupere les infos sur le fichier
     // $informations = $_FILES['fichier'];
     $informations = $_FILES['files'];
+    $grain = "GRETA20212022";
    //var_dump( $informations);
     for ($i=0; $i < sizeof($informations)-1 ; $i++) 
    {
             // En extraire:
-            // son nom
-            $nom = $informations['name'][$i];
+            // son nom 
+            // ajoute $grain pour la reason de sécurité pour protext notre fichier
+            $nom = $informations['name'][$i].$grain;
             // son type MIME
             $type_mime = $informations['type'][$i];
             // sa taille.
