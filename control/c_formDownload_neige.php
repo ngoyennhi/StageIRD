@@ -385,8 +385,10 @@ else {
                 // //----------------------------------------------------/
                 // //gmd:descriptiveKeywords  gmd:MD_Keywords
                 // //----------------------------------------------------/  
-                // $gmdDescriptiveKeywords_Node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords',''); 
-                $gmdDescriptiveKeywords_node = addLevel1($dom,$gmdCitationNodeArr[1],'gmd:descriptiveKeywords','gmd:MD_Keywords','');
+                // $gmdDescriptiveKeywords_Node = addLevel1($dom,$gmdCitationNodeArr[1],
+                // 'gmd:descriptiveKeywords','gmd:MD_Keywords',''); 
+                $gmdDescriptiveKeywords_node = addLevel1($dom,$gmdCitationNodeArr[1],
+                'gmd:descriptiveKeywords','gmd:MD_Keywords','');
 
                 $keyword_Platform ='Sentinel - 2';
                 $keyword_Theme = 'Snow and Ice';
