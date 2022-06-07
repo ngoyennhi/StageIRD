@@ -12,10 +12,10 @@ if (!isset($_SESSION['loggedin'])) {
         <div class="row d-flex justify-content-center align-items-center">
                 <div class="col-6 d-flex justify-content-center align-items-center">
                          
-                         <a href="index.php?loc=profile" class="logout" style="font-size: 6vh;color: cyan">Profile</a>
+                         <a href="index.php?loc=profile"  style="font-size: 4vh;color: cyan">Profile</a>
                 </div>
                 <div class="col-6 d-flex justify-content-center align-items-center">
-                         <a href="index.php?loc=logout" class="logout" style="font-size: 6vh;color: cyan">Logout</a>
+                         <a href="index.php?loc=logout"  style="font-size: 4vh;color: cyan">Logout</a>
             
                 </div>
         </div>
