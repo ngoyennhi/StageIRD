@@ -3,11 +3,12 @@ $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY
 // Traitement du formulaire
 // if boutton OK appliqué, on commence le traitement
 if (isset($arrSaisi['ok'])) {
-    include('lib_thesaurus.php');
-    //libxml_disable_entity_loader(false); 
-    include('c_fonction.php');   }
+    include('../model/lib_thesaurus.php');
+    include('../model/m_fonction.php');  }
 ?>
+
 <?php
+
 $files = glob("../data/*xml");
 
 if(empty($files)){
@@ -229,10 +230,6 @@ else {
             $dom->encoding = 'utf-8';
             $dom->xmlVersion = '1.0';
             $dom->formatOutput = true;
-            // // If the $xml_file_name file in existing directory already exist, delete it by unlink()
-            // if (!unlink($xml_file_name)) {
-            //     echo "$file_pointer cannot be deleted due to an error";
-            // } else {
 
             /*********************************  
               gmi:MI_Metadata
@@ -279,13 +276,7 @@ else {
               OSO :
              ********************************/
              addLevel1($dom,$root,'gmd:characterSet','gmd:MD_CharacterSetCode','utf8');
-                // $attr_MD_codeList = new DOMAttr(
-                //     'codeList',
-                //     'http://www.ngdc.noaa.gov/metadata/published/xsd/schema/resources/Codelist/gmxCodelists.xml#MD_CharacterSetCode'
-                // );
-                // $attr_MD_codeListValue = new DOMAttr('codeListValue', 'utf8');
-                // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
-                // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
+            
     
             /*********************************  
                  Bloc:  gmd:contact

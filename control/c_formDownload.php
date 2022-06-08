@@ -3,11 +3,11 @@ $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY
 // Traitement du formulaire
 // if boutton OK appliqué, on commence le traitement
 if (isset($arrSaisi['ok'])) {
-    include('lib_thesaurus.php');
-    //libxml_disable_entity_loader(false); 
-    include('c_fonction.php');   
+    include('../model/lib_thesaurus.php');
+    include('../model/m_fonction.php');   }
 ?>
 <?php
+
 $files = glob("../data/*xml");
 
 if(empty($files)){
@@ -454,7 +454,6 @@ else {
 
 }// end if empty
 
-}
 ?>
 <!--Rediriger sur la page précédente -->
 <meta http-equiv="refresh" content="1; url=../index.php?loc=fini" />

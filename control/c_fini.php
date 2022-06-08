@@ -1,43 +1,7 @@
 <?php
     //list file by file
     include 'control/c_formDownload.php';
-    // list file by file
-    // include 'control/c_formDownload.php';
-    // // Array containing file names
-    // $files = glob("../results/*xml");
-    // // Loop through array to create file XML
-    //     foreach($files as $file){
-    //         // remove "../results/" form file name
-    //         $file = substr($file,11);
-    //         echo sprintf(
-    //         "<tr><td>%s</td></tr>\n",
-    //         '<p><a href="c_fini.php?file='.$file.'" alt="'.pathinfo($file, PATHINFO_FILENAME).'">'.$file.'</a></p>'
-    //         );
-    //     if(!empty($_GET['file'])){
-    //             $filename =basename($_GET['file']);
   
-    //             $filepath = '../results/'.$filename;
-    
-    //             if(!empty($filename) && file_exists($filepath)){
-    //                 //Define Headers
-    //                 header("Cache-Control: public");
-    //                 header("Content-Description: File Transer");
-    //                 header("Content-Disposition: attachment; filename=$filename");
-    //                 header("Content-Type: application/zip");
-    //                 header("Content-Transfer-Emcoding: binary");
-                
-    //                 readfile($filepath);
-    //                 exit;
-    //             }
-    //             else{
-    //             http_response_code(404);
-    //              die();
-    //             }
-    //             }     
-    // }
-
-
-    
 // ZIP file
      function createZipAndDownload($files, $filesPath, $zipFileName)
         {
@@ -53,21 +17,6 @@
          }
          $zip->close();
     
-        //test 1
-        //  // Download the created zip file
-        //  $size =filesize($zipFileName);
-        //  header("Content-type: application/zip");
-        //  header("Content-Disposition: attachment; filename = $zipFileName");
-        //  header('Content-Length:'.$size);
-         
-        //  header("Pragma: no-cache");
-        //  header("Expires: 0");
-        // //-------------------
-        //  //Clean before! In order to avoid 500 error
-        //  ob_end_clean();
-        //  flush();
-
-
         //test 2 
         header('Content-Description: File Transfer');
         header('Content-Type:'.mime_content_type($zipFileName));
