@@ -2,6 +2,39 @@
  /*********************************  
                      Bloc: Functions
          ********************************/
+        /**
+         * check_mdp_format/ check_user_format
+         * password includes A-Z or a-z or 0-9 only
+         * user includes A-Z or a-z or 0-9 only
+         */
+        function check_user_format($mdp)
+        {
+            $majuscule = preg_match('@[A-Z]@', $mdp);
+            $minuscule = preg_match('@[a-z]@', $mdp);
+            $chiffre = preg_match('@[0-9]@', $mdp);
+            
+            if(!$majuscule || !$minuscule || !$chiffre || strlen($mdp) < 4)
+            {
+                return false;
+            }
+            else 
+                return true;
+        };
+
+        function check_mdp_format($mdp)
+        {
+            $majuscule = preg_match('@[A-Z]@', $mdp);
+            $minuscule = preg_match('@[a-z]@', $mdp);
+            $chiffre = preg_match('@[0-9]@', $mdp);
+            
+            if(!$majuscule || !$minuscule || !$chiffre || strlen($mdp) < 4)
+            {
+                return false;
+            }
+            else 
+                return true;
+        };
+
         function before ($char, $string){
             return substr($string, 0, strpos($string, $char,));
            };

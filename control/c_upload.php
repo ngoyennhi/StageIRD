@@ -4,7 +4,7 @@
 array_map('unlink', glob('../data/*.xml'));
 
 $arrSaisi = filter_input(INPUT_POST,'saisie',FILTER_DEFAULT,FILTER_REQUIRE_ARRAY);
-//var_dump($arrSaisi);
+
 // Inialisation de la variable de message
 $message = '';
 // Traitement du formulaire
@@ -32,12 +32,13 @@ if (isset($arrSaisi['ok'])) {
             switch ($code_erreur) {
                 case UPLOAD_ERR_OK:
                     // Fichier bien reçu
+                    $grain = 'needemand';
                     // Déterminer sa destination finale.
-                    $destination = '../data/'.$nom;
+                    $destination = '../data/'.$grain.$nom;
                     // Copier le fichier temporaire (tester le résultat)
                     if (copy($fichier_temporaire, $destination)) {
                         // Copie OK => mettre un message de confrmation.
-                        $message = 'Transfert terminé - Fichier = '.$nom.'<br>'; 
+                        $message = 'Transfert terminé - Fichier = '.$grain.$nom.'<br>'; 
                         $message .= 'Taille = '.$taille.'octets - '.'<br>';
                         $message .= 'Type MIME = '.$type_mime.'<br>';
                     } 

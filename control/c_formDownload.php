@@ -17,7 +17,8 @@ if(empty($files)){
 else {
  if (is_array($files)) {
     foreach($files as $filename) {
-        $o_XML_filename = trim($filename,'data/.');
+        $grain = "needemand";
+        $o_XML_filename = trim($filename,'data/'.$grain.'.');
         $xml_file_name = before('.',$o_XML_filename).'_ISO.xml';
         //var_dump($xml_file_name);
         $path = '../results/'.$xml_file_name;
@@ -221,15 +222,11 @@ else {
             $dom->encoding = 'utf-8';
             $dom->xmlVersion = '1.0';
             $dom->formatOutput = true;
-            // // If the $xml_file_name file in existing directory already exist, delete it by unlink()
-            // if (!unlink($xml_file_name)) {
-            //     echo "$file_pointer cannot be deleted due to an error";
-            // } else {
-
-            /*********************************  
+        
+    /*********************************  
               gmi:MI_Metadata
               OSO - <Metadata_Identification>
-             ********************************/
+    ********************************/
     
             // START Un premier élément'gmi:MI_Metadata'
     
@@ -255,21 +252,21 @@ else {
     
             /* Data - NODEs and add node into its parent by appendChild */
     
-             /*********************************  
+    /*********************************  
               Bloc: gmd:fileIdentifier - 
               OSO: Dataset_Identification
-             ********************************/
+    ********************************/
             addLevel1($dom,$root,'gmd:fileIdentifier','gco:CharacterString',$o_IDENTIFIER);
-            /*********************************  
+    /*********************************  
               Bloc: gmd:language 
               OSO :
-            ********************************/
+    ********************************/
              addLevel1($dom,$root,'gmd:language','gco:CharacterString','eng');
           
-             /*********************************  
+    /*********************************  
               Bloc: gmd:characterSet
               OSO :
-             ********************************/
+    ********************************/
              addLevel1($dom,$root,'gmd:characterSet','gmd:MD_CharacterSetCode','utf8');
                 // $attr_MD_codeList = new DOMAttr(
                 //     'codeList',
@@ -279,41 +276,41 @@ else {
                 // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeList);
                 // $gmdMD_CharacterSetCode_node->setAttributeNode($attr_MD_codeListValue);
     
-            /*********************************  
+    /*********************************  
                  Bloc:  gmd:contact
                 OSO :  PRODUCER
-            ********************************/
+    ********************************/
             addLevel1($dom,$root,'gmd:contact','gco:CharacterString',$o_PRODUCER);
         
-            /*********************************  
+    /*********************************  
                  Bloc:  gmd:locale
                 OSO :  GEOGRAPHICAL_ZONE
-            ********************************/
+    ********************************/
             $gmdLocale_node=addLevel2($dom,$root,'gmd:locale','gmd:PT_Locale','gmd:country',$o_GEOGRAPHICAL_ZONE);
             addAttr($gmdLocale_node[2],'type',$o_GEOGRAPHICAL_ZONE_att_type);
             
-            /*********************************  
+     /*********************************  
                  Bloc:  gmd:dateStamp
                 OSO :  PRODUCTION_DATE
-            ********************************/
+    ********************************/
             addLevel1($dom,$root,'gmd:dateStamp','gco:DateTime',$o_PRODUCTION_DATE);
             
-            /*********************************  
+    /*********************************  
                  Bloc:  gmd:metadataStandardName
                 OSO :  TITLE
-            ********************************/
+    ********************************/
             addLevel1($dom,$root,'gmd:metadataStandardName','gco:CharacterString','ISO 19115-2 Geographic Information - Metadata Part 2 Extensions for imagery and gridded data');
         
-            /*********************************  
+    /*********************************  
                  Bloc:  gmd:metadataStandardVersion
                 OSO :  
-            ********************************/
+    ********************************/
             addLevel1($dom,$root,'gmd:metadataStandardVersion','gco:CharacterString','ISO 19115-2:2009(E)');
             
-            /*********************************  
+    /*********************************  
                  Bloc: gmd:MD_DataIdentification
                 OSO: Product_Characteristics
-            ********************************/
+     ********************************/
             $gmdMD_DataIdentification_node = $dom->createElement('gmd:MD_DataIdentification');
             //----------------------------------------------------/
             //OSO: <TITLE>Produit carte d'occupation des sols</TITLE>
@@ -389,10 +386,10 @@ else {
                 addKeyword($dom,$gmdDescriptiveKeywords_node,$keyword_Platform,$lib_thesaurus);
             
             $root->appendChild($gmdMD_DataIdentification_node);
-                /*********************************  
+    /*********************************  
                      Bloc: gmd:MD_Distribution
                     OSO: Distributed_Product
-                ********************************/
+    ********************************/
                     $gmdMD_Distribution_node = $dom->createElement('gmd:MD_Distribution');
                                 $gmdMD_Distribution_citation_node = $dom->createElement('gmd:citation');
                                     $gmdMD_Distribution_citation_CI_Citation_node = $dom->createElement('gmd:CI_Citation');
@@ -417,18 +414,18 @@ else {
                     $gmdMD_Distribution_node->appendChild($gmdMD_Distribution_citation_node);
                     $root->appendChild($gmdMD_Distribution_node);
                     
-            /*********************************  
+    /*********************************  
                      Bloc: gmi:platform
                     OSO: PLATFORM
-            ********************************/
-            $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
-            addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
+    ********************************/
+                $gmdPlatform_node = addLevel3($dom,$root,'gmi:platform','eos:EOS_Platform','gmi:identifier','gmd:MD_Identifier','');
+                addLevel1($dom,$gmdPlatform_node[3],'gmd:code','gco:CharacterString',$o_PLATFORM);
           
          
-            /*********************************  
+    /*********************************  
                      Bloc: gmd:referenceSystemInfo
                     OSO: GEO_TABLES
-            ********************************/
+    ********************************/
                     $gmdReferenceSystemInfo_node = addLevel3($dom,$root,'gmd:referenceSystemInfo','gmd:MD_ReferenceSystem','gmd:referenceSystemIdentifier','gmd:RS_Identifier','');
                     $gmdAuthority_node = addLevel0($dom,$gmdReferenceSystemInfo_node[3],'gmd:authority','');
                         // OSO <GEO_TABLES>
